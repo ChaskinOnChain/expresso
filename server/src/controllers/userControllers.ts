@@ -6,10 +6,24 @@ import bcrypt from "bcryptjs";
 import { RequestWithUser } from "../types/types";
 
 const signUp = asyncHandler(async (req, res) => {
-  const { username, email, password, role, ethereum_address } = req.body;
+  const {
+    username,
+    email,
+    password,
+    role,
+    ethereum_address,
+    adminPassword,
+    img,
+  } = req.body;
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("Missing username, email, or password");
+  }
+  if (role === "admin") {
+    if (adminPassword !== "BLOGORDIE") {
+      res.status(401);
+      throw new Error("You are not an admin");
+    }
   }
   const newUser = new User({
     username,
@@ -17,8 +31,9 @@ const signUp = asyncHandler(async (req, res) => {
     password,
     role,
     ethereum_address,
+    img,
   });
-  const savedUser = await newUser.save();
+  await newUser.save();
   res.status(200).json({ message: "Sign up successful" });
 });
 
