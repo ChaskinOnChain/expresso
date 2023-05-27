@@ -3,11 +3,11 @@ import brush from "../assets/images/brush.png";
 import blog1 from "../assets/images/blog1.png";
 import blog2 from "../assets/images/blog2.png";
 
-function SecondHome() {
+function ConnectHome() {
   return (
     <div
       id="second-home"
-      className="relative h-[54rem] w-full bg-orange-500 pl-24 pt-64 pr-[30rem] text-white overflow-hidden"
+      className="relative h-[40rem] w-full bg-orange-500 pl-24 pt-20 pr-[30rem] text-white overflow-hidden"
     >
       <h1 className="text-4xl mb-12">Connect With Other Bloggers</h1>
       <h4 className="text-lg">
@@ -20,9 +20,10 @@ function SecondHome() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
+        transition={{ delay: 0.75 }}
       >
         <img
-          className="absolute top-32 right-[20%] h-32 w-64"
+          className="absolute top-20 right-[10%] h-32 w-64"
           src={brush}
           alt="brush"
         />
@@ -34,9 +35,11 @@ function SecondHome() {
         alt="blog1"
       />
       <motion.div
-        initial={{ x: 900, y: 150 }}
-        whileInView={{ x: 550, y: 150 }}
+        className="h-[30rem] w-[50rem] "
+        initial={{ x: 999, y: 150 }}
+        whileInView={{ x: 450, y: 0 }}
         viewport={{ once: true }}
+        transition={{ delay: 1 }}
       >
         <img className="absolute" src={blog2} alt="blog2" />
       </motion.div>
@@ -44,4 +47,4 @@ function SecondHome() {
   );
 }
 
-export default SecondHome;
+export default ConnectHome;

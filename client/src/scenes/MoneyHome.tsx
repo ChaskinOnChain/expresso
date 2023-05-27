@@ -3,11 +3,11 @@ import money from "../assets/images/money.png";
 import calc from "../assets/images/calc.png";
 import computer from "../assets/images/computer.png";
 
-function ThirdHome() {
+function MoneyHome() {
   return (
-    <div className="relative h-[54rem] w-full bg-emerald-600 text-white overflow-hidden pt-[25%] pl-[50%] pr-[10%]">
+    <div className="relative h-[40rem] w-full bg-emerald-600 text-white overflow-hidden pt-[8%] pl-[50%] pr-[10%]">
       <h1 className="text-4xl mb-8">Earn Money</h1>
-      <p>
+      <p className="text-lg">
         Monetize Your Efforts With Ethereum. Simply add your Ethereum address to
         your account, and reap the benefits of your hard work. As your blog
         gains popularity, you'll earn ETH directly from your fans. Thus, your
@@ -16,19 +16,21 @@ function ThirdHome() {
       </p>
       <motion.div
         className="absolute"
-        initial={{ x: -100, y: -300 }}
-        whileInView={{ x: -550, y: -300 }}
+        initial={{ x: -850, y: -275 }}
+        whileInView={{ x: -600, y: -275 }}
         viewport={{ once: true }}
+        transition={{ delay: 0.75 }}
       >
         <img src={computer} alt="computer" />
       </motion.div>
 
-      <img className="absolute bottom-60 right-2" src={money} alt="money" />
+      <img className="absolute top-5 right-5" src={money} alt="money" />
       <motion.div
         className="absolute"
-        initial={{ x: 500, y: 0 }}
-        whileInView={{ x: 0, y: 0 }}
+        initial={{ x: 500, y: -50 }}
+        whileInView={{ x: 0, y: -50 }}
         viewport={{ once: true }}
+        transition={{ delay: 0.75 }}
       >
         <img className="scale-75" src={calc} alt="calc" />
       </motion.div>
@@ -36,4 +38,4 @@ function ThirdHome() {
   );
 }
 
-export default ThirdHome;
+export default MoneyHome;

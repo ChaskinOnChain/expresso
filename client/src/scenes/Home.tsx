@@ -1,15 +1,19 @@
 import Navbar from "../components/Navbar";
 import FirstHome from "./FirstHome";
-import SecondHome from "./SecondHome";
-import ThirdHome from "./ThirdHome";
+import WorldHome from "./WorldHome";
+import ConnectHome from "./ConnectHome";
+import MoneyHome from "./MoneyHome";
+import CollectableHome from "./CollectableHome";
 
 function Home() {
   return (
     <>
       <Navbar />
       <FirstHome />
-      <SecondHome />
-      <ThirdHome />
+      <ConnectHome />
+      <MoneyHome />
+      <CollectableHome />
+      <WorldHome />
     </>
   );
 }

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {
-    id: null,
+    _id: null,
     username: null,
     email: null,
     ethereum_address: null,
@@ -35,8 +35,10 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.user = action.payload;
+      state.user = { ...state.user, ...action.payload.user };
+      state.user.token = action.payload.token;
       state.user.isLoggedIn = true;
+      state.blogs.data = [...state.blogs.data, ...action.payload.blogs];
     },
     logoutSuccess: (state) => {
       state.user = initialState.user;

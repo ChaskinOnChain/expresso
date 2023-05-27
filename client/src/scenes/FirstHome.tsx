@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 function FirstHome() {
   return (
     <div className="h-screen w-screen bg-red-800 flex justify-center overflow-hidden">
-      <div className="text-white pt-72 text-center">
+      <div className="text-white mt-48 pt-16 text-center rounded-lg px-16 h-[30%]">
         <h1 className="text-4xl mb-4">
           Express your interests in your unique style
         </h1>
@@ -13,7 +13,7 @@ function FirstHome() {
           Effortlessly craft a blog that's both unique and aesthetically
           pleasing
         </h3>
-        <button className="p-4 px-6 bg-orange-500 text-white rounded hover:bg-orange-400">
+        <button className="p-4 px-6 bg-orange-500 shadow-lg text-white rounded hover:bg-orange-400 transition duration-500">
           CREATE YOUR BLOG
         </button>
       </div>

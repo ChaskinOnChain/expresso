@@ -14,8 +14,9 @@ const UserSchema = new Schema({
     min: 3,
     max: 50,
     required: [true, "You must include a username"],
+    unique: true,
   },
-  img: String,
+  img: Buffer,
   email: {
     type: String,
     min: 3,
@@ -25,6 +26,7 @@ const UserSchema = new Schema({
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       "Please fill a valid email address",
     ],
+    unique: true,
   },
   password: {
     type: String,

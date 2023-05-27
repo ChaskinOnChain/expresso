@@ -6,7 +6,7 @@ function Login() {
     <div className="bg-slate-100 h-screen w-screen">
       <LoginBar />
       <div className="w-full flex justify-center">
-        <Form />
+        <Form isLogin={true} />
       </div>
     </div>
   );

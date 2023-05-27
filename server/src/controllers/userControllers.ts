@@ -44,18 +44,24 @@ const logIn = asyncHandler(async (req, res) => {
     throw new Error("Missing email or password");
   }
 
-  const user = await User.findOne({ email });
+  const preUser = await User.findOne({ email });
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!preUser || !(await bcrypt.compare(password, preUser.password))) {
     res.status(401);
     throw new Error("Wrong login info");
   }
 
-  const token = jwt.sign({ id: user._id.toString() }, process.env.JWT_SECRET!, {
-    expiresIn: "30d",
-  });
+  const token = jwt.sign(
+    { id: preUser._id.toString() },
+    process.env.JWT_SECRET!,
+    {
+      expiresIn: "30d",
+    }
+  );
 
-  res.status(200).json({ token });
+  const user = await User.findOne({ email }).select("-password");
+
+  res.status(200).json({ user, token });
 });
 
 const updateUserInfo = async (req: RequestWithUser, res: Response) => {

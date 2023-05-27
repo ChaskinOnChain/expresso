@@ -2,10 +2,13 @@ import { Formik, Field, ErrorMessage, Form as Furm } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { loginSuccess, updateUser } from "../state";
+import { loginSuccess } from "../state";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { TextField } from "formik-material-ui";
 
-const API_URL = "http://localhost:3000/users/signup";
+const API_URL_LOGIN = "http://localhost:3000/users/login";
+const API_URL_REGISTER = "http://localhost:3000/users/signup";
 
 interface Props {
   isLogin: boolean;
@@ -35,7 +38,6 @@ const validationSchemaLogin = yup.object({
 
 const validationSchemaRegister = yup.object({
   username: yup.string().required("Required"),
-  img: yup.string().url("Must be a valid URL").required("Required"),
   email: yup.string().email("Invalid email address").required("Required"),
   password: yup.string().required("Required"),
   ethereum_address: yup
@@ -48,14 +50,57 @@ const validationSchemaRegister = yup.object({
 });
 
 const Form = ({ isLogin }: Props) => {
-  const [pageType, setPageType] = useState(isLogin);
+  const [loginBool, setloginBool] = useState(isLogin);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleFormSubmit = async (values, onSubmitProps) => {
+    let url = loginBool ? API_URL_LOGIN : API_URL_REGISTER;
+    const formData = new FormData();
+    formData.append("img", values.img);
+
+    for (let key in values) {
+      if (key !== "img") {
+        formData.append(key, values[key]);
+      }
+    }
     try {
-      const res = await axios.post(API_URL, values);
+      const res = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       const data = res.data;
-      console.log(data);
+      if (data) {
+        if (loginBool) {
+          const blogs = [];
+          const userInfo = {};
+          if (data.user) {
+            for (const key in data.user) {
+              if (key === "blogs") {
+                data.user[key].forEach((blog) => {
+                  blogs.push(blog);
+                });
+              } else {
+                userInfo[key] = data.user[key];
+              }
+            }
+          }
+          dispatch(
+            loginSuccess({
+              user: userInfo,
+              token: data.token,
+              blogs,
+            })
+          );
+          onSubmitProps.resetForm();
+          navigate("/");
+        } else {
+          onSubmitProps.resetForm();
+          setloginBool(true);
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -65,9 +110,9 @@ const Form = ({ isLogin }: Props) => {
     <div className="bg-white mt-12 w-2/3 p-8 rounded">
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={pageType ? initialValuesLogin : initialValuesRegister}
+        initialValues={loginBool ? initialValuesLogin : initialValuesRegister}
         validationSchema={
-          pageType ? validationSchemaLogin : validationSchemaRegister
+          loginBool ? validationSchemaLogin : validationSchemaRegister
         }
       >
         {({ values, handleChange, resetForm }) => (
@@ -76,7 +121,7 @@ const Form = ({ isLogin }: Props) => {
               Welcome to Expresso, where your thoughts brew into captivating
               stories
             </h3>
-            {!pageType && (
+            {!loginBool && (
               <>
                 <Field
                   name="username"
@@ -89,17 +134,18 @@ const Form = ({ isLogin }: Props) => {
                   name="username"
                   component="div"
                 />
-                <Field
-                  name="img"
-                  placeholder="Profile Picture (url)"
-                  type="text"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="ethereum_address"
-                  component="div"
-                />
+                <div className="mt-6">
+                  <Field
+                    label="Choose Your Profile Picture"
+                    className={inputClass}
+                    component={TextField}
+                    type="file"
+                    name="img"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                </div>
                 <Field
                   name="ethereum_address"
                   placeholder="Ethereum Address"
@@ -158,22 +204,24 @@ const Form = ({ isLogin }: Props) => {
               type="submit"
               className="w-full bg-sky-500 text-white p-3 rounded hover:bg-sky-400 transition duration-500 mb-8 mt-8"
             >
-              {pageType ? "LOGIN" : "REGISTER"}
+              {loginBool ? "LOGIN" : "REGISTER"}
             </button>
             <span
               className="text-sky-400 underline text-sm cursor-pointer"
               onClick={() => {
-                setPageType((prevLogin) => !prevLogin);
-                if (prevLogin) {
-                  resetForm({ values: initialValuesRegister });
-                } else {
-                  resetForm({ values: initialValuesLogin });
-                }
+                setloginBool((prevLoginBool) => {
+                  if (prevLoginBool) {
+                    resetForm({ values: initialValuesRegister });
+                  } else {
+                    resetForm({ values: initialValuesLogin });
+                  }
+                  return !prevLoginBool;
+                });
               }}
             >
-              {pageType
-                ? "Don't have an account? Sign Up here."
-                : "Already have an account? Login here."}
+              {loginBool
+                ? "Already have an account? Login here."
+                : "Don't have an account? Sign Up here."}
             </span>
           </Furm>
         )}

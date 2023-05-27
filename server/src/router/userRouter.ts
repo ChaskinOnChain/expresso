@@ -9,10 +9,11 @@ import {
 import verifyJWT from "../middleware/verifyJWT";
 import verifyAdmin from "../middleware/verifyAdmin";
 import { deletePostOrComment } from "../controllers/blogControllers";
+import uploadMiddleware from "../middleware/uploadMiddleware";
 
 const userRouter = express.Router();
 
-userRouter.route("/signup").post(signUp);
+userRouter.route("/signup").post(uploadMiddleware.single("img"), signUp);
 userRouter.route("/login").post(logIn);
 userRouter
   .route("/me")
