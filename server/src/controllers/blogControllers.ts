@@ -1,14 +1,17 @@
 import asyncHandler from "express-async-handler";
-import Blog from "../models/blogModel";
-import { RequestWithUser } from "../types/types";
-import { Response } from "express";
+import { Blog, IBlog } from "../models/blogModel";
+import { Request, Response } from "express";
 
-const postBlog = async (req: RequestWithUser, res: Response) => {
+const postBlog = async (req: Request, res: Response) => {
   try {
     const { title, content, tags } = req.body;
     if (!title || !content) {
       res.status(400);
       throw new Error("Missing content or title");
+    }
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
     }
     const blog = new Blog({
       title,
@@ -25,12 +28,25 @@ const postBlog = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const viewYourOwnBlogs = async (req: RequestWithUser, res: Response) => {
+const viewYourOwnBlogs = async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
+    const search = req.query.search;
+
+    const page: number = parseInt(String(req.query.page)) || 1;
+    const limit: number = parseInt(String(req.query.limit)) || 10;
+
+    if (!search) {
+      res.status(400);
+      throw new Error("Nothing to search");
+    }
+
     const options = {
-      page: parseInt(page),
-      limit: parseInt(limit),
+      page,
+      limit,
       sort: { createdAt: "desc" },
     };
     const query = { author: req.user._id };
@@ -43,7 +59,7 @@ const viewYourOwnBlogs = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const viewBlog = asyncHandler(async (req, res) => {
+const viewBlog = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const blog = await Blog.findById(id);
   if (!blog) {
@@ -53,7 +69,7 @@ const viewBlog = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "your blog", data: blog });
 });
 
-const comment = async (req: RequestWithUser, res: Response) => {
+const comment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findById(id);
@@ -66,6 +82,10 @@ const comment = async (req: RequestWithUser, res: Response) => {
       res.status(400);
       throw new Error("No comment");
     }
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
     blog.comments = [...blog.comments, { user: req.user._id, comment }];
     await blog.save();
     res.status(200).json({ message: "comment successful", data: blog });
@@ -76,8 +96,12 @@ const comment = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const viewComments = async (req: RequestWithUser, res: Response) => {
+const viewComments = async (req: Request, res: Response) => {
   try {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
     const { id } = req.params;
     const blog = await Blog.findById(id);
     if (!blog) {
@@ -96,17 +120,21 @@ const viewComments = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const searchBlogs = async (req: RequestWithUser, res: Response) => {
+const searchBlogs = async (req: Request, res: Response) => {
   try {
-    const { page = 1, limit = 10, search } = req.query;
+    const search = req.query.search;
+
+    const page: number = parseInt(String(req.query.page)) || 1;
+    const limit: number = parseInt(String(req.query.limit)) || 10;
+
     if (!search) {
       res.status(400);
       throw new Error("Nothing to search");
     }
     const options = {
-      page: parseInt(page),
-      limit: parseInt(limit),
-      sort: { createdAt: "desc" }, // Sort by creation date in descending order
+      page,
+      limit,
+      sort: { createdAt: "desc" },
     };
 
     const query = { $text: { $search: search } };
@@ -123,7 +151,7 @@ const searchBlogs = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const deletePostOrComment = async (req: RequestWithUser, res: Response) => {
+const deletePostOrComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const blog = await Blog.findById(id);
@@ -140,7 +168,7 @@ const deletePostOrComment = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const filterByTag = async (req: RequestWithUser, res: Response) => {
+const filterByTag = async (req: Request, res: Response) => {
   try {
     const tags = req.query.tags;
     console.log(tags);
@@ -149,12 +177,14 @@ const filterByTag = async (req: RequestWithUser, res: Response) => {
       throw new Error("Nothing to search");
     }
     const blogs = await Blog.find();
-    let match: (typeof Blog)[] = [];
+    let match: IBlog[] = [];
     blogs.forEach((blog) => {
       if (Array.isArray(tags)) {
-        if (tags.some((tag) => blog.tags.includes(tag))) {
-          match.push(blog);
-        }
+        tags.forEach((tag) => {
+          if (typeof tag === "string" && blog.tags.includes(tag)) {
+            match.push(blog);
+          }
+        });
       } else if (typeof tags === "string") {
         if (blog.tags.includes(tags)) {
           match.push(blog);

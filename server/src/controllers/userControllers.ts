@@ -1,11 +1,10 @@
 import jwt from "jsonwebtoken";
-import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import User from "../models/userModel";
 import bcrypt from "bcryptjs";
-import { RequestWithUser } from "../types/types";
+import { Request, Response } from "express";
 
-const signUp = asyncHandler(async (req, res) => {
+const signUp = asyncHandler(async (req: Request, res: Response) => {
   const {
     username,
     email,
@@ -37,7 +36,7 @@ const signUp = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Sign up successful" });
 });
 
-const logIn = asyncHandler(async (req, res) => {
+const logIn = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400);
@@ -64,13 +63,19 @@ const logIn = asyncHandler(async (req, res) => {
   res.status(200).json({ user, token });
 });
 
-const updateUserInfo = async (req: RequestWithUser, res: Response) => {
+const updateUserInfo = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
     if (!username && !email && !password) {
       res.status(400);
       throw new Error("Nothing to update");
     }
+
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
+
     const user = await User.findById(req.user._id);
 
     if (!user) {
@@ -88,8 +93,12 @@ const updateUserInfo = async (req: RequestWithUser, res: Response) => {
     throw new Error("Something went wrong");
   }
 };
-const deleteUser = async (req: RequestWithUser, res: Response) => {
+const deleteUser = async (req: Request, res: Response) => {
   try {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
     const user = await User.findById(req.user._id);
     if (!user) {
       res.status(400);
@@ -104,7 +113,7 @@ const deleteUser = async (req: RequestWithUser, res: Response) => {
   }
 };
 
-const viewUsers = asyncHandler(async (req, res) => {
+const viewUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await User.find();
   res.status(200).json({ data: users });
 });

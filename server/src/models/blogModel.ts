@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 const { Schema } = mongoose;
@@ -21,4 +21,25 @@ BlogSchema.index({ title: "text", tags: "text" });
 
 BlogSchema.plugin(mongoosePaginate);
 
-export default mongoose.model("Blog", BlogSchema);
+interface IBlog extends Document {
+  title: string;
+  author: mongoose.Schema.Types.ObjectId;
+  date: Date;
+  content: string;
+  tags: string[];
+  comments: (typeof commentSchema)[];
+}
+
+interface PaginateOptions {
+  page: number;
+  limit: number;
+  sort: object;
+}
+
+interface IBlogModel extends Model<IBlog> {
+  paginate: (query: object, options: PaginateOptions) => Promise<any>;
+}
+
+const Blog: IBlogModel = mongoose.model<IBlog, IBlogModel>("Blog", BlogSchema);
+
+export { Blog, IBlog };
