@@ -7,24 +7,28 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { TextField } from "formik-material-ui";
 
+import {
+  ApiRequestLogin,
+  ApiRequestRegister,
+  Blog,
+  FormProps,
+  User,
+} from "../types/types";
+
 const API_URL_LOGIN = "http://localhost:3000/users/login";
 const API_URL_REGISTER = "http://localhost:3000/users/signup";
 
-interface Props {
-  isLogin: boolean;
-}
-
-const initialValuesRegister = {
+const initialValuesRegister: ApiRequestRegister = {
   username: "",
-  img: "",
+  img: undefined,
   email: "",
   password: "",
-  role: "user",
+  role: "",
   ethereum_address: "",
-  adminPassword: "",
+  adminPassword: undefined,
 };
 
-const initialValuesLogin = {
+const initialValuesLogin: ApiRequestLogin = {
   email: "",
   password: "",
 };
@@ -44,27 +48,37 @@ const validationSchemaRegister = yup.object({
     .string()
     .matches(/^0x[a-fA-F0-9]{40}$/, "Invalid Ethereum address")
     .required("Required"),
-  adminPassword: yup.string().when("role", (role, schema) => {
+  role: yup
+    .string()
+    .oneOf(["user", "admin", ""], "Invalid role")
+    .required("Role is required"),
+  adminPassword: yup.string().when("role", (role: any, schema) => {
     return role === "admin" ? schema.required("Required") : schema;
   }),
 });
 
-const Form = ({ isLogin }: Props) => {
+const Form = ({ isLogin }: FormProps) => {
   const [loginBool, setloginBool] = useState(isLogin);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
-    let url = loginBool ? API_URL_LOGIN : API_URL_REGISTER;
-    const formData = new FormData();
-    formData.append("img", values.img);
-
-    for (let key in values) {
-      if (key !== "img") {
-        formData.append(key, values[key]);
+  const handleFormSubmit = async (values: any, onSubmitProps: any) => {
+    let formData = new FormData();
+    if (loginBool) {
+      const valuesRegister: ApiRequestRegister = values;
+      formData.append("img", valuesRegister.img);
+      for (const key in values) {
+        if (key !== "img") {
+          formData.append(key, valuesRegister[key]);
+        }
       }
+    } else {
+      const valuesLogin: ApiRequestLogin = values;
+      formData = values;
     }
+    const url = loginBool ? API_URL_LOGIN : API_URL_REGISTER;
+
     try {
       const res = await axios.post(url, formData, {
         headers: {
@@ -74,12 +88,19 @@ const Form = ({ isLogin }: Props) => {
       const data = res.data;
       if (data) {
         if (loginBool) {
-          const blogs = [];
-          const userInfo = {};
+          const blogs: Blog[] = [];
+          const userInfo: User = {
+            img: null,
+            username: "",
+            email: "",
+            ethereum_address: "",
+            role: "",
+            token: "",
+          };
           if (data.user) {
             for (const key in data.user) {
               if (key === "blogs") {
-                data.user[key].forEach((blog) => {
+                data.user[key].forEach((blog: Blog) => {
                   blogs.push(blog);
                 });
               } else {
@@ -115,7 +136,7 @@ const Form = ({ isLogin }: Props) => {
           loginBool ? validationSchemaLogin : validationSchemaRegister
         }
       >
-        {({ values, handleChange, resetForm }) => (
+        {({ values, resetForm }) => (
           <Furm>
             <h3 className="font-bold">
               Welcome to Expresso, where your thoughts brew into captivating
@@ -161,7 +182,7 @@ const Form = ({ isLogin }: Props) => {
                   <option value="user">User</option>
                   <option value="admin">Admin</option>
                 </Field>
-                {values.role === "admin" && (
+                {!loginBool && "role" in values && values.role === "admin" && (
                   <>
                     <Field
                       placeholder="Admin Password"
@@ -210,11 +231,7 @@ const Form = ({ isLogin }: Props) => {
               className="text-sky-400 underline text-sm cursor-pointer"
               onClick={() => {
                 setloginBool((prevLoginBool) => {
-                  if (prevLoginBool) {
-                    resetForm({ values: initialValuesRegister });
-                  } else {
-                    resetForm({ values: initialValuesLogin });
-                  }
+                  resetForm();
                   return !prevLoginBool;
                 });
               }}
