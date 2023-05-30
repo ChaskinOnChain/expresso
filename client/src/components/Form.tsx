@@ -18,19 +18,26 @@ import {
 const API_URL_LOGIN = "http://localhost:3000/users/login";
 const API_URL_REGISTER = "http://localhost:3000/users/signup";
 
+type ApiRequest = ApiRequestLogin | ApiRequestRegister;
+
 const initialValuesRegister: ApiRequestRegister = {
   username: "",
-  img: undefined,
+  img: "",
   email: "",
   password: "",
   role: "",
   ethereum_address: "",
-  adminPassword: undefined,
+  adminPassword: "",
 };
 
 const initialValuesLogin: ApiRequestLogin = {
+  username: "",
+  img: "",
   email: "",
   password: "",
+  role: "user",
+  ethereum_address: "",
+  adminPassword: "",
 };
 
 const inputClass = `border border-slate-300 w-full p-2 rounded mt-6`;
@@ -62,32 +69,45 @@ const Form = ({ isLogin }: FormProps) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const handleFormSubmit = async (values: any, onSubmitProps: any) => {
-    let formData = new FormData();
-    if (loginBool) {
-      const valuesRegister: ApiRequestRegister = values;
-      formData.append("img", valuesRegister.img);
-      for (const key in values) {
-        if (key !== "img") {
-          formData.append(key, valuesRegister[key]);
+    const url = loginBool ? API_URL_LOGIN : API_URL_REGISTER;
+    if (!loginBool) {
+      try {
+        const formData = new FormData();
+        const valuesRegister: ApiRequestRegister = values;
+        formData.append("img", valuesRegister.img);
+        for (const key in values) {
+          if (key !== "img") {
+            formData.append(key, valuesRegister[key]);
+          }
         }
+        const res = await axios.post(url, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const data = res.data;
+        if (data) {
+          onSubmitProps.resetForm();
+          setloginBool(true);
+        }
+      } catch (error) {
+        console.log(error);
       }
     } else {
-      const valuesLogin: ApiRequestLogin = values;
-      formData = values;
-    }
-    const url = loginBool ? API_URL_LOGIN : API_URL_REGISTER;
-
-    try {
-      const res = await axios.post(url, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      const data = res.data;
-      if (data) {
-        if (loginBool) {
+      try {
+        const valuesLogin: ApiRequestLogin = values;
+        const payload = {
+          email: valuesLogin.email,
+          password: valuesLogin.password,
+        };
+        const res = await axios.post(url, payload, {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
+        const data = res.data;
+        if (data) {
           const blogs: Blog[] = [];
           const userInfo: User = {
             img: null,
@@ -117,26 +137,37 @@ const Form = ({ isLogin }: FormProps) => {
           );
           onSubmitProps.resetForm();
           navigate("/");
-        } else {
-          onSubmitProps.resetForm();
-          setloginBool(true);
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
   };
-
   return (
     <div className="bg-white mt-12 w-2/3 p-8 rounded">
       <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={loginBool ? initialValuesLogin : initialValuesRegister}
+        onSubmit={(values: ApiRequest, formikHelpers) =>
+          handleFormSubmit(values, formikHelpers) as any
+        }
+        initialValues={
+          loginBool ? initialValuesLogin : (initialValuesRegister as ApiRequest)
+        }
         validationSchema={
           loginBool ? validationSchemaLogin : validationSchemaRegister
         }
       >
-        {({ values, resetForm }) => (
+        {({
+          values,
+          resetForm,
+        }: {
+          values: any;
+          resetForm: () => void;
+          setFieldValue: (
+            field: string,
+            value: any,
+            shouldValidate?: boolean | undefined
+          ) => void;
+        }) => (
           <Furm>
             <h3 className="font-bold">
               Welcome to Expresso, where your thoughts brew into captivating
@@ -175,7 +206,7 @@ const Form = ({ isLogin }: FormProps) => {
                 />
                 <ErrorMessage
                   className="text-red-500"
-                  name="logo"
+                  name="ethereum_address"
                   component="div"
                 />
                 <Field className={inputClass} as="select" name="role">
@@ -223,6 +254,9 @@ const Form = ({ isLogin }: FormProps) => {
             />
             <button
               type="submit"
+              onClick={() => {
+                console.log(values);
+              }}
               className="w-full bg-sky-500 text-white p-3 rounded hover:bg-sky-400 transition duration-500 mb-8 mt-8"
             >
               {loginBool ? "LOGIN" : "REGISTER"}

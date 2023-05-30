@@ -14,6 +14,7 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
     adminPassword,
     img,
   } = req.body;
+
   if (!username || !email || !password) {
     res.status(400);
     throw new Error("Missing username, email, or password");
