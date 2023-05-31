@@ -4,6 +4,7 @@ import RightRecentPosts from "./RightRecentPosts";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { BlogReturn } from "../types/types";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const API_URL = "http://localhost:3000/blogs/all";
 
@@ -13,9 +14,12 @@ function RecentBlogPosts() {
   const [blogsTwoThruFour, setBlogsTwoThruFour] = useState<BlogReturn[] | null>(
     null
   );
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     async function getBlogs() {
       try {
+        setLoading(true);
         const res = await axios.get(API_URL, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -27,6 +31,8 @@ function RecentBlogPosts() {
         setBlogsTwoThruFour(data.data.docs.slice(1, 4));
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     }
     getBlogs();
@@ -35,20 +41,28 @@ function RecentBlogPosts() {
   return (
     <div className="px-16">
       <h4 className="font-bold mb-6">Recent Blog Posts</h4>
-      <div className="w-full flex gap-6">
-        {firstBlog && (
-          <LeftRecentPosts
-            id={firstBlog._id}
-            title={firstBlog.title}
-            author={firstBlog.author}
-            content={firstBlog.content}
-            date={firstBlog.date}
-            tags={firstBlog.tags}
-            img={firstBlog.img}
-          />
-        )}
-        {blogsTwoThruFour && <RightRecentPosts blogsArray={blogsTwoThruFour} />}
-      </div>
+      {loading ? (
+        <div className="w-full flex items-center justify-center">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <div className="w-full flex gap-6">
+          {firstBlog && (
+            <LeftRecentPosts
+              id={firstBlog._id}
+              title={firstBlog.title}
+              author={firstBlog.author}
+              content={firstBlog.content}
+              date={firstBlog.date}
+              tags={firstBlog.tags}
+              img={firstBlog.img}
+            />
+          )}
+          {blogsTwoThruFour && (
+            <RightRecentPosts blogsArray={blogsTwoThruFour} />
+          )}
+        </div>
+      )}
     </div>
   );
 }
