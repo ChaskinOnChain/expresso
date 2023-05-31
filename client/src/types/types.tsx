@@ -43,3 +43,28 @@ export interface Blog {
   tags?: string[];
   comments: Comment[];
 }
+
+export interface BlogReturn {
+  title: string;
+  author: {
+    _id: string;
+    username: string;
+  };
+  content: string;
+  date: Date;
+  tags: string[];
+  img: any;
+  comments: string[];
+}
+
+export interface LeftRecentProps {
+  title: string;
+  author: {
+    _id: string;
+    username: string;
+  };
+  content: string;
+  date: Date;
+  tags: string[];
+  img: any;
+}

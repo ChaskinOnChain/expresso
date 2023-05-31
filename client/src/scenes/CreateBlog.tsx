@@ -49,7 +49,7 @@ function CreateBlog() {
       });
       console.log(res.data);
       setIsModal(false);
-      navigate("/");
+      navigate("/discover");
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +67,7 @@ function CreateBlog() {
           <Furm className="px-6 flex justify-center relative">
             {isModal && (
               <div className="absolute -top-[7rem] bg-black/50 h-screen w-screen flex justify-center items-center">
-                <div className="h-[18%] w-[31%] bg-white shadow-2xl rounded p-8">
+                <div className="h-[18%] min-h-[210px] w-[31%] bg-white shadow-2xl rounded p-8">
                   <h1 className="font-bold text-2xl mb-4">Publish post?</h1>
                   <p className="mb-9">
                     This will publish this post to your blog.

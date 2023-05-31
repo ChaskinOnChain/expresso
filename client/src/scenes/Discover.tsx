@@ -5,13 +5,13 @@ function Discover() {
   return (
     <div>
       <NavbarDiscover />
-      <div className="py-16 text-center">
+      <div className="px-16 pt-8 pb-16 text-center">
         <h1 className="text-5xl font-bold tracking-wider mb-8">
-          Inside Design: Stories and interviews
+          Explore New Horizons, One Post at a Time
         </h1>
         <h4 className="text-lg">
-          Subscripte to learn about new product features, the latest in
-          technology, and updates
+          Dive into the latest posts, unveiling stories, insights, and
+          inspirations from the corners of our shared world.
         </h4>
       </div>
       <RecentBlogPosts />

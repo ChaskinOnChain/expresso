@@ -4,6 +4,7 @@ import Login from "./scenes/Login";
 import User from "./scenes/UserHome";
 import Discover from "./scenes/Discover";
 import CreateBlog from "./scenes/CreateBlog";
+import ProfilePage from "./scenes/ProfilePage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/user" element={<User />} />
         <Route path="/discover" element={<Discover />} />
         <Route path="/create" element={<CreateBlog />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );

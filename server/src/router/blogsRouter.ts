@@ -5,6 +5,7 @@ import {
   filterByTag,
   postBlog,
   searchBlogs,
+  viewAllBlogs,
   viewBlog,
   viewComments,
   viewYourOwnBlogs,
@@ -15,6 +16,7 @@ const blogsRouter = express.Router();
 
 blogsRouter.route("/search").get(verifyJWT, searchBlogs);
 blogsRouter.route("/filter").get(verifyJWT, filterByTag);
+blogsRouter.route("/all").get(verifyJWT, viewAllBlogs);
 blogsRouter.route("/:id").get(verifyJWT, viewBlog).post(verifyJWT, comment);
 blogsRouter.route("/:id/comments").get(verifyJWT, viewComments);
 blogsRouter

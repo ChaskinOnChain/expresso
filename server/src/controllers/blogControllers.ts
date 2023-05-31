@@ -67,6 +67,32 @@ const viewYourOwnBlogs = async (req: Request, res: Response) => {
   }
 };
 
+const viewAllBlogs = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized");
+    }
+
+    const page: number = parseInt(String(req.query.page)) || 1;
+    const limit: number = parseInt(String(req.query.limit)) || 10;
+
+    const options = {
+      page,
+      limit,
+      sort: { date: -1 },
+      populate: { path: "author", select: "username" },
+    };
+    const query = {};
+    const result = await Blog.paginate(query, options);
+    res.status(200).json({ message: "all blogs", data: result });
+  } catch (error) {
+    console.log(error);
+    res.status(500);
+    throw new Error("Something went wrong");
+  }
+};
+
 const viewBlog = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
   const blog = await Blog.findById(id);
@@ -216,4 +242,5 @@ export {
   searchBlogs,
   deletePostOrComment,
   filterByTag,
+  viewAllBlogs,
 };

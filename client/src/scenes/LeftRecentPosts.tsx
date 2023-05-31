@@ -1,28 +1,39 @@
-import la from "../assets/images/la.jpg";
 import Tag from "../components/Tag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
+import { LeftRecentProps } from "../types/types";
 
-function LeftRecentPosts() {
+function LeftRecentPosts({
+  title,
+  author,
+  content,
+  date,
+  tags,
+  img,
+}: LeftRecentProps) {
   return (
     <div className="w-[50%]">
-      <img className="cursor-pointer" src={la} alt="la" />
-      <h4 className="pt-6 text-sm pb-2">John Smith - 20 Jan 2024</h4>
+      <img
+        className="cursor-pointer h-96 w-full"
+        src={arrayBufferToBase64ImgSrc(img.data)}
+        alt="la"
+      />
+      <h4 className="pt-6 text-sm pb-2">{`${author.username} - ${convertDate(
+        date
+      )}`}</h4>
       <div className="flex justify-between cursor-pointer">
-        <h2 className="font-bold mb-2">Title of the Blog</h2>
+        <h2 className="font-bold mb-2">{title}</h2>
         <FontAwesomeIcon
           className="font-bold cursor-pointer"
           icon={faArrowUpRightFromSquare}
         />
       </div>
-      <p className="mb-2">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ut officia at
-        unde adipisci ratione laudantium, inventore nesciunt obcaecati rem sunt.
-      </p>
+      <p className="mb-2">{`${content.slice(0, 130)}...`}</p>
       <div className="flex gap-2">
-        <Tag name={"tag1"} />
-        <Tag name={"tag2"} />
-        <Tag name={"tag3"} />
+        <Tag name={tags[0]} />
+        <Tag name={tags[1]} />
+        <Tag name={tags[2]} />
       </div>
     </div>
   );
