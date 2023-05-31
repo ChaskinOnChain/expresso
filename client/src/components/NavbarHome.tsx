@@ -4,7 +4,7 @@ import logoLight from "../assets/images/LogoLightTrans.png";
 import logoDark from "../assets/images/LogoDarkTrans.png";
 import { Link } from "react-router-dom";
 
-function Navbar() {
+function NavbarHome() {
   const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleScroll = () => {
@@ -64,4 +64,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default NavbarHome;

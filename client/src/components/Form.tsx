@@ -66,6 +66,7 @@ const validationSchemaRegister = yup.object({
 
 const Form = ({ isLogin }: FormProps) => {
   const [loginBool, setloginBool] = useState(isLogin);
+  const [fileName, setFileName] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -136,7 +137,7 @@ const Form = ({ isLogin }: FormProps) => {
             })
           );
           onSubmitProps.resetForm();
-          navigate("/");
+          navigate("/discover");
         }
       } catch (error) {
         console.log(error);
@@ -188,10 +189,34 @@ const Form = ({ isLogin }: FormProps) => {
                 />
                 <div className="mt-6">
                   <Field
-                    label="Choose Your Profile Picture"
-                    className={inputClass}
-                    component={TextField}
-                    type="file"
+                    component={({ field, form }) => (
+                      <div>
+                        <input
+                          id="img"
+                          className="hidden"
+                          name="img"
+                          type="file"
+                          onChange={(event) => {
+                            form.setFieldValue(
+                              field.name,
+                              event.currentTarget.files[0]
+                            );
+                            setFileName(
+                              event.currentTarget.files.length
+                                ? event.currentTarget.files[0].name
+                                : ""
+                            );
+                          }}
+                        />
+                        <button
+                          type="button"
+                          className="border border-slate-300 w-full p-2 rounded"
+                          onClick={() => document.getElementById("img").click()}
+                        >
+                          {fileName || "Choose Your Profile Picture"}
+                        </button>
+                      </div>
+                    )}
                     name="img"
                     InputLabelProps={{
                       shrink: true,
@@ -254,9 +279,6 @@ const Form = ({ isLogin }: FormProps) => {
             />
             <button
               type="submit"
-              onClick={() => {
-                console.log(values);
-              }}
               className="w-full bg-sky-500 text-white p-3 rounded hover:bg-sky-400 transition duration-500 mb-8 mt-8"
             >
               {loginBool ? "LOGIN" : "REGISTER"}

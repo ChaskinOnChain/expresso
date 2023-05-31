@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar";
+import NavbarHome from "../components/NavbarHome";
 import FirstHome from "./FirstHome";
 import WorldHome from "./WorldHome";
 import ConnectHome from "./ConnectHome";
@@ -8,7 +8,7 @@ import CollectableHome from "./CollectableHome";
 function Home() {
   return (
     <>
-      <Navbar />
+      <NavbarHome />
       <FirstHome />
       <ConnectHome />
       <MoneyHome />

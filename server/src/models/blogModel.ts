@@ -14,6 +14,7 @@ const BlogSchema = new Schema({
   date: { type: Date, default: Date.now },
   content: { type: String, required: [true, "You need content"], max: 1000 },
   tags: [String],
+  img: Buffer,
   comments: [commentSchema],
 });
 
@@ -27,6 +28,7 @@ interface IBlog extends Document {
   date: Date;
   content: string;
   tags: string[];
+  img: Buffer;
   comments: (typeof commentSchema)[];
 }
 

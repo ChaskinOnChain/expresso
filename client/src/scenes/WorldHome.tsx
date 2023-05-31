@@ -2,6 +2,7 @@ import fam from "../assets/images/fam.png";
 import world from "../assets/images/world.png";
 import docs from "../assets/images/docs.png";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function WorldHome() {
   return (
@@ -15,9 +16,11 @@ function WorldHome() {
         Sign up to taste the richness of thoughts and discover why millions have
         chosen to distill their passions here.
       </p>
-      <button className="p-4 px-6 bg-slate-700 text-white rounded hover:bg-slate-500 transition duration-500">
-        CREATE YOUR BLOG
-      </button>
+      <Link to="/login">
+        <button className="p-4 px-6 bg-slate-700 text-white rounded hover:bg-slate-500 transition duration-500">
+          CREATE YOUR BLOG
+        </button>
+      </Link>
       <motion.div
         className="absolute"
         initial={{ x: -530, y: -450 }}

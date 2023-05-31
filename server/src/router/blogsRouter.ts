@@ -9,6 +9,7 @@ import {
   viewComments,
   viewYourOwnBlogs,
 } from "../controllers/blogControllers";
+import uploadMiddleware from "../middleware/uploadMiddleware";
 
 const blogsRouter = express.Router();
 
@@ -18,7 +19,7 @@ blogsRouter.route("/:id").get(verifyJWT, viewBlog).post(verifyJWT, comment);
 blogsRouter.route("/:id/comments").get(verifyJWT, viewComments);
 blogsRouter
   .route("/")
-  .post(verifyJWT, postBlog)
+  .post(uploadMiddleware.single("img"), verifyJWT, postBlog)
   .get(verifyJWT, viewYourOwnBlogs);
 
 export default blogsRouter;

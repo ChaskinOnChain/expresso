@@ -5,15 +5,8 @@ import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 
 const signUp = asyncHandler(async (req: Request, res: Response) => {
-  const {
-    username,
-    email,
-    password,
-    role,
-    ethereum_address,
-    adminPassword,
-    img,
-  } = req.body;
+  const { username, email, password, role, ethereum_address, adminPassword } =
+    req.body;
 
   if (!username || !email || !password) {
     res.status(400);
@@ -25,13 +18,21 @@ const signUp = asyncHandler(async (req: Request, res: Response) => {
       throw new Error("You are not an admin");
     }
   }
+
+  if (!req.file) {
+    res.status(400);
+    throw new Error("No image file uploaded");
+  }
+
+  const imgBuffer = req.file.buffer;
+
   const newUser = new User({
     username,
     email,
     password,
     role,
     ethereum_address,
-    img,
+    img: imgBuffer,
   });
   await newUser.save();
   res.status(200).json({ message: "Sign up successful" });

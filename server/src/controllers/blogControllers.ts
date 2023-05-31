@@ -5,19 +5,27 @@ import { Request, Response } from "express";
 const postBlog = async (req: Request, res: Response) => {
   try {
     const { title, content, tags } = req.body;
-    if (!title || !content) {
+    console.log(req.body);
+    if (!title || !content || !tags) {
       res.status(400);
-      throw new Error("Missing content or title");
+      throw new Error("Missing content, title, or tags");
     }
     if (!req.user) {
       res.status(401);
       throw new Error("Unauthorized");
     }
+    if (!req.file) {
+      res.status(400);
+      throw new Error("No image file uploaded");
+    }
+    const tagsArray = tags.split(",");
+    const imgBuffer = req.file.buffer;
     const blog = new Blog({
       title,
       author: req.user._id,
       content,
-      tags,
+      tags: tagsArray,
+      img: imgBuffer,
     });
     const savedBlog = await blog.save();
     res.status(200).json({ message: "blog posted", data: savedBlog });

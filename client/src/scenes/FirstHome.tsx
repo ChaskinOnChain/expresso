@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 function FirstHome() {
   return (
@@ -13,9 +14,11 @@ function FirstHome() {
           Effortlessly craft a blog that's both unique and aesthetically
           pleasing
         </h3>
-        <button className="p-4 px-6 bg-orange-500 shadow-lg text-white rounded hover:bg-orange-400 transition duration-500">
-          CREATE YOUR BLOG
-        </button>
+        <Link to="/login">
+          <button className="p-4 px-6 bg-orange-500 shadow-lg text-white rounded hover:bg-orange-400 transition duration-500">
+            CREATE YOUR BLOG
+          </button>
+        </Link>
       </div>
       <img
         className="absolute bottom-0 left-[50%] -translate-x-1/2"
