@@ -25,11 +25,14 @@ function NavbarDiscover() {
           </button>
         </Link>
         {userProPic && (
-          <img
-            className="h-12 w-12 rounded-full cursor-pointer shadow-md hover:shadow-2xl"
-            src={arrayBufferToBase64ImgSrc(userProPic.data)}
-            alt="Profile"
-          />
+          <div className="relative">
+            <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
+            <img
+              className="h-12 w-12 rounded-full cursor-pointer"
+              src={arrayBufferToBase64ImgSrc(userProPic.data)}
+              alt="Profile"
+            />
+          </div>
         )}
       </div>
     </div>

@@ -22,6 +22,7 @@ function RecentBlogPosts() {
           },
         });
         const data = res.data;
+        console.log(data.data.docs[0]);
         setFirstBlog(data.data.docs[0]);
         setBlogsTwoThruFour(data.data.docs.slice(1, 4));
       } catch (error) {
@@ -37,6 +38,7 @@ function RecentBlogPosts() {
       <div className="w-full flex gap-6">
         {firstBlog && (
           <LeftRecentPosts
+            id={firstBlog._id}
             title={firstBlog.title}
             author={firstBlog.author}
             content={firstBlog.content}

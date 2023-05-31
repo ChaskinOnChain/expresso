@@ -55,6 +55,7 @@ export interface BlogReturn {
   tags: string[];
   img: any;
   comments: string[];
+  _id: string;
 }
 
 export interface LeftRecentProps {
@@ -67,4 +68,5 @@ export interface LeftRecentProps {
   date: Date;
   tags: string[];
   img: any;
+  id: string;
 }

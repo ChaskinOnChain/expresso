@@ -5,6 +5,7 @@ import User from "./scenes/UserHome";
 import Discover from "./scenes/Discover";
 import CreateBlog from "./scenes/CreateBlog";
 import ProfilePage from "./scenes/ProfilePage";
+import BlogDetail from "./scenes/BlogDetail";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/user" element={<User />} />
         <Route path="/discover" element={<Discover />} />
+        <Route path="/discover/:id" element={<BlogDetail />} />
         <Route path="/create" element={<CreateBlog />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>

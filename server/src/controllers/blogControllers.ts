@@ -95,7 +95,16 @@ const viewAllBlogs = async (req: Request, res: Response) => {
 
 const viewBlog = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const blog = await Blog.findById(id);
+  const blog = await Blog.findById(id)
+    .populate("author", "username email img ethereum_address")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "user",
+        select: "username img",
+      },
+    });
+
   if (!blog) {
     res.status(400);
     throw new Error("No blogs with that id");
