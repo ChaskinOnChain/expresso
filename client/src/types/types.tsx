@@ -70,3 +70,22 @@ export interface LeftRecentProps {
   img: any;
   id: string;
 }
+
+export interface ProfileBlog {
+  _id: string;
+  title: string;
+  date: Date;
+  tags: string[];
+  img: any;
+}
+
+export type SingleBlogProps = {
+  hoveredIndex: number | null;
+  setHoveredIndex: (index: number | null) => void;
+  img: any;
+  title: string;
+  date: Date;
+  index: number;
+  tags: string[];
+  id: string;
+};

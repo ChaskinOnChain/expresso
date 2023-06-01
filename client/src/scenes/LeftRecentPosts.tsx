@@ -23,9 +23,10 @@ function LeftRecentPosts({
           alt="la"
         />
       </Link>
-      <h4 className="pt-6 text-sm pb-2">{`${author.username} - ${convertDate(
-        date
-      )}`}</h4>
+      <h4 className="pt-6 text-sm pb-2">
+        <Link to={`/profile/${author._id}`}>{author.username}</Link> -{" "}
+        {convertDate(date)}
+      </h4>
 
       <Link
         className="flex justify-between cursor-pointer"

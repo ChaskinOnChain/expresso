@@ -118,7 +118,10 @@ const deleteUser = async (req: Request, res: Response) => {
 
 const viewUser = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params;
-  const user = await User.findById(id).select("-password");
+  const user = await User.findById(id)
+    .select("-password")
+    .populate("blogs", "title date tags img");
+
   res.status(200).json({ data: user });
 });
 

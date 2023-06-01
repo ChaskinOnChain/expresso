@@ -22,8 +22,11 @@ function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
               </Link>
             </div>
             <div className="w-[49%]">
-              <h4 className="text-sm pb-2">
-                {blog.author.username} - {convertDate(blog.date)}
+              <h4 className=" text-sm pb-2">
+                <Link to={`/profile/${blog.author._id}`}>
+                  {blog.author.username}
+                </Link>{" "}
+                -{convertDate(blog.date)}
               </h4>
 
               <Link

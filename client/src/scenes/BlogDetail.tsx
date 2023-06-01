@@ -15,11 +15,11 @@ function BlogDetail() {
 
   const { id } = useParams<{ id: string }>();
   const [blogData, setBlogData] = useState<BlogReturn | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function getBlog() {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const res = await axios(`${API_URL_BLOGS}${id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
@@ -29,7 +29,7 @@ function BlogDetail() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -58,10 +58,8 @@ function BlogDetail() {
   return (
     <div>
       <NavbarDiscover />
-      {loading ? (
-        <div className="w-full flex items-center justify-center">
-          <LoadingSpinner />
-        </div>
+      {isLoading ? (
+        <LoadingSpinner />
       ) : (
         blogData && (
           <div className="px-8">

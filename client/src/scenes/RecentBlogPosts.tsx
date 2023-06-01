@@ -14,12 +14,12 @@ function RecentBlogPosts() {
   const [blogsTwoThruFour, setBlogsTwoThruFour] = useState<BlogReturn[] | null>(
     null
   );
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     async function getBlogs() {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const res = await axios.get(API_URL, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +32,7 @@ function RecentBlogPosts() {
       } catch (error) {
         console.log(error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
     getBlogs();
@@ -41,7 +41,7 @@ function RecentBlogPosts() {
   return (
     <div className="px-16">
       <h4 className="font-bold mb-6">Recent Blog Posts</h4>
-      {loading ? (
+      {isLoading ? (
         <div className="w-full flex items-center justify-center">
           <LoadingSpinner />
         </div>
