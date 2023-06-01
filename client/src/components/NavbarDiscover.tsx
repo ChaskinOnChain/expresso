@@ -5,7 +5,7 @@ import { arrayBufferToBase64ImgSrc } from "../utils/utils";
 
 arrayBufferToBase64ImgSrc;
 function NavbarDiscover() {
-  const userProPic = useSelector((state) => state.app.user.img);
+  const state = useSelector((state) => state.app.user);
   return (
     <div className="h-28 w-full flex justify-between items-center">
       <div className="absolute h-4 w-full top-0 left-0 bg-gradient-to-br from-yellow-500 to-purple-500"></div>
@@ -24,15 +24,15 @@ function NavbarDiscover() {
             Discover
           </button>
         </Link>
-        {userProPic && (
-          <div className="relative">
-            <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
+        {state && (
+          <Link to={`/profile/${state._id}`} className="relative">
+            <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10"></div>
             <img
-              className="h-12 w-12 rounded-full cursor-pointer"
-              src={arrayBufferToBase64ImgSrc(userProPic.data)}
+              className="h-12 w-12 rounded-full cursor-pointer hover:shadow-2xl"
+              src={arrayBufferToBase64ImgSrc(state.img.data)}
               alt="Profile"
             />
-          </div>
+          </Link>
         )}
       </div>
     </div>

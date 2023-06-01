@@ -4,6 +4,7 @@ import {
   logIn,
   signUp,
   updateUserInfo,
+  viewUser,
   viewUsers,
 } from "../controllers/userControllers";
 import verifyJWT from "../middleware/verifyJWT";
@@ -19,6 +20,7 @@ userRouter
   .route("/me")
   .put(verifyJWT, updateUserInfo)
   .delete(verifyJWT, deleteUser);
+userRouter.route("/:id").get(verifyJWT, viewUser);
 
 const adminRouter = express.Router();
 

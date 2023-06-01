@@ -95,6 +95,7 @@ const updateUserInfo = async (req: Request, res: Response) => {
     throw new Error("Something went wrong");
   }
 };
+
 const deleteUser = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
@@ -115,9 +116,15 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const viewUser = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = await User.findById(id).select("-password");
+  res.status(200).json({ data: user });
+});
+
 const viewUsers = asyncHandler(async (req: Request, res: Response) => {
   const users = await User.find();
   res.status(200).json({ data: users });
 });
 
-export { signUp, logIn, updateUserInfo, deleteUser, viewUsers };
+export { signUp, logIn, updateUserInfo, deleteUser, viewUsers, viewUser };

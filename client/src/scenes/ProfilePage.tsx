@@ -1,24 +1,36 @@
+import { useEffect } from "react";
 import NavbarDiscover from "../components/NavbarDiscover";
-import { useSelector } from "react-redux";
 import { arrayBufferToBase64ImgSrc } from "../utils/utils";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useSelector } from "react-redux";
+
+const API_URL = "http://localhost:3000/users/";
 
 function ProfilePage() {
-  const userState = useSelector((state) => state.app.user);
+  const token = useSelector((state) => state.app.user.token);
+  const { id } = useParams();
+
+  useEffect(() => {
+    async function findUser() {
+      console.log(`${API_URL}${id}`);
+      const res = await axios.get(`${API_URL}${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = res.data.data;
+      console.log(data);
+    }
+    findUser();
+  }, []);
 
   return (
     <div>
       <NavbarDiscover />
       <div className="h-screen w-full px-6 pt-1">
-        <div className="text-2xl flex">
-          <img
-            className="rounded-md h-32 w-32 mr-8"
-            src={arrayBufferToBase64ImgSrc(userState.img.data)}
-            alt="propic"
-          />
-          <div>
-            <p className="mb-4">{userState.username}</p>
-            <p className="text-sm">{userState.email}</p>
-          </div>
+        <div>
+          <h1 className="font-bold text-xl">Latest Articles</h1>
         </div>
       </div>
     </div>

@@ -1,11 +1,11 @@
 import asyncHandler from "express-async-handler";
 import { Blog, IBlog } from "../models/blogModel";
+import User from "../models/userModel";
 import { Request, Response } from "express";
 
 const postBlog = async (req: Request, res: Response) => {
   try {
     const { title, content, tags } = req.body;
-    console.log(req.body);
     if (!title || !content || !tags) {
       res.status(400);
       throw new Error("Missing content, title, or tags");
@@ -27,6 +27,9 @@ const postBlog = async (req: Request, res: Response) => {
       tags: tagsArray,
       img: imgBuffer,
     });
+    const user = await User.findById(req.user._id);
+    user.blogs = [...user.blogs, blog];
+    await user.save();
     const savedBlog = await blog.save();
     res.status(200).json({ message: "blog posted", data: savedBlog });
   } catch (error) {

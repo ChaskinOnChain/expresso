@@ -99,15 +99,14 @@ function BlogDetail() {
                 </div>
               </div>
               <div>
-                <h4>Ethereum Address: {blogData.author.ethereum_address}</h4>
-                <div className="w-96 h-8 bg-black text-white">
-                  Placeholder for eth donations
-                </div>
+                <h4></h4>
+                <div className="">{convertDate(blogData.date)}</div>
               </div>
             </div>
             <div className="flex gap-5 mt-6">
-              <div className="h-32 bg-black w-[25%] flex justify-center items-center text-white">
-                Placeholder for digital collectable
+              <div className="h-32 bg-black w-[25%] text-white">
+                Placeholder for Eth Stuff
+                {blogData.author.ethereum_address}
               </div>
               <pre
                 style={{ whiteSpace: "pre-wrap" }}
@@ -158,7 +157,7 @@ function BlogDetail() {
                 {blogData.comments &&
                   blogData.comments.map((comment, index) => {
                     return (
-                      <div className="mt-6 flex gap-4">
+                      <div key={index} className="mt-6 flex gap-4">
                         <div className="relative">
                           <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
                           <img
