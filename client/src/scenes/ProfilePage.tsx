@@ -42,36 +42,37 @@ function ProfilePage() {
   }, [id]);
 
   return (
-    <div>
+    <div className="flex flex-col flex-grow max-w-[90rem] xl:mx-auto w-full h-full">
       <NavbarDiscover />
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <div className="px-12">
-          <div className="flex gap-4 mb-8">
-            <div className="relative mb-4">
-              <div className="absolute top-[-5px] left-[-5px] h-[170px] w-[170px] bg-black rounded-full -z-10"></div>
+          <div className="flex md:flex-row flex-col gap-4 mb-8">
+            <div className="mb-4">
               {currentUser && (
-                <img
-                  className="h-40 w-40 rounded-full cursor-pointer hover:shadow-2xl"
-                  src={arrayBufferToBase64ImgSrc(currentUser.img.data)}
-                  alt="Profile"
-                />
+                <div className="flex flex-col items-center">
+                  <img
+                    className="h-40 w-40 border-4 border-black rounded-full cursor-pointer hover:shadow-2xl"
+                    src={arrayBufferToBase64ImgSrc(currentUser.img.data)}
+                    alt="Profile"
+                  />
+                  <h2 className="text-4xl font-bold mt-2 mb-1">
+                    {currentUser?.username}
+                  </h2>
+                  <h4 className="text-xl">{currentUser?.email}</h4>
+                </div>
               )}
-              <h2 className="text-3xl font-bold mb-1">
-                {currentUser?.username}
-              </h2>
-              <h4 className="">{currentUser?.email}</h4>
             </div>
             <div className="h-32 w-96 bg-black text-white">
               PLACE HOLDER FOR ETHEREUM STUFF
             </div>
           </div>
 
-          <div className="h-screen w-full pt-1">
+          <div className="h-full w-full pt-1">
             <div>
               <h1 className="font-bold text-xl">Latest Blogs</h1>
-              <div className="flex flex-wrap gap-4 h-[40%] mt-6">
+              <div className="flex flex-wrap gap-4 mt-6">
                 {currentUser &&
                   currentUser.blogs
                     .slice(0, 6)
@@ -95,7 +96,7 @@ function ProfilePage() {
                   <div className="w-full text-center mt-4">
                     <button
                       onClick={() => setShowMoreButton(false)}
-                      className="px-4 py-2 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"
+                      className="px-4 py-2 mb-4 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"
                     >
                       View More
                     </button>

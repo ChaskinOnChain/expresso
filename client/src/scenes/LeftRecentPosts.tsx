@@ -15,7 +15,7 @@ function LeftRecentPosts({
   img,
 }: LeftRecentProps) {
   return (
-    <div className="w-[50%]">
+    <div className="md:w-[50%] w-full">
       <Link to={`/discover/${id}`}>
         <img
           className="cursor-pointer h-96 w-full"

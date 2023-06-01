@@ -1,6 +1,6 @@
-import fam from "../assets/images/fam.png";
-import world from "../assets/images/world.png";
-import docs from "../assets/images/docs.png";
+import fam from "../../assets/images/fam.png";
+import world from "../../assets/images/world.png";
+import docs from "../../assets/images/docs.png";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 

@@ -26,9 +26,9 @@ function RecentBlogPosts() {
           },
         });
         const data = res.data;
-        console.log(data.data.docs[0]);
-        setFirstBlog(data.data.docs[0]);
-        setBlogsTwoThruFour(data.data.docs.slice(1, 4));
+        console.log(data.data);
+        setFirstBlog(data.data[0]);
+        setBlogsTwoThruFour(data.data.slice(1, 4));
       } catch (error) {
         console.log(error);
       } finally {
@@ -39,14 +39,14 @@ function RecentBlogPosts() {
   }, []);
 
   return (
-    <div className="px-16">
+    <div className="px-16 pb-16">
       <h4 className="font-bold mb-6">Recent Blog Posts</h4>
       {isLoading ? (
         <div className="w-full flex items-center justify-center">
           <LoadingSpinner />
         </div>
       ) : (
-        <div className="w-full flex gap-6">
+        <div className="w-full flex flex-col md:flex-row gap-6">
           {firstBlog && (
             <LeftRecentPosts
               id={firstBlog._id}

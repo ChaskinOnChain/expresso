@@ -8,7 +8,7 @@ type Props = {
 const Tag = ({ name }: Props) => {
   return (
     <Link
-      to={`/tag?q=${name}`}
+      to={`/search/tag/?q=${name}`}
       className="border border-black rounded-xl px-2 cursor-pointer text-sm hover:bg-black hover:text-white transition duration-500"
     >
       {name}

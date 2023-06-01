@@ -19,7 +19,7 @@ const SingleBlog = ({
       to={`/discover/${id}`}
       onMouseEnter={() => setHoveredIndex(index)}
       onMouseLeave={() => setHoveredIndex(null)}
-      className="h-[200px] w-full md:w-[48.89%] xl:w-[32.47%] rounded-xl overflow-hidden relative cursor-pointer"
+      className="h-[200px] w-full md:w-[48.86%] xl:w-[31%] rounded-xl overflow-hidden relative cursor-pointer"
     >
       <img
         className="w-full h-full"

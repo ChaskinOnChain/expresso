@@ -56,13 +56,13 @@ function BlogDetail() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col flex-grow max-w-[90rem] xl:mx-auto">
       <NavbarDiscover />
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         blogData && (
-          <div className="px-8">
+          <div className="px-8 min-h-full flex flex-col flex-grow">
             <ul className="flex gap-2">
               <li>
                 <Tag name={blogData.tags[0]} />
@@ -83,14 +83,12 @@ function BlogDetail() {
             />
             <div className="py-4 flex items-center justify-between">
               <div className="flex gap-4">
-                <div className="relative">
-                  <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
-                  <img
-                    className="h-12 w-12 rounded-full cursor-pointer"
-                    src={arrayBufferToBase64ImgSrc(blogData.author.img.data)}
-                    alt="Profile"
-                  />
-                </div>
+                <img
+                  className="h-12 w-12 rounded-full cursor-pointer border-4 border-black"
+                  src={arrayBufferToBase64ImgSrc(blogData.author.img.data)}
+                  alt="Profile"
+                />
+
                 <div>
                   <h4 className="font-bold">{blogData.author.username}</h4>
                   <h4>{blogData.author.email}</h4>
@@ -101,46 +99,42 @@ function BlogDetail() {
                 <div className="">{convertDate(blogData.date)}</div>
               </div>
             </div>
-            <div className="flex gap-5 mt-6">
-              <div className="h-32 bg-black w-[25%] text-white">
+            <div className="md:flex-row flex flex-col gap-5 mt-6">
+              <div className="h-32 bg-black md:w-[25%] text-white w-full">
                 Placeholder for Eth Stuff
                 {blogData.author.ethereum_address}
               </div>
               <pre
                 style={{ whiteSpace: "pre-wrap" }}
-                className="w-[70%] break-keep overflow-auto font-sans"
+                className="md:w-[70%] w-full break-keep overflow-auto font-sans"
               >
                 {blogData.content}
               </pre>
             </div>
             <div className="h-[1px] w-full bg-black my-8"></div>
-            <div className="mx-32 w-full flex justify-center">
-              <div>
+            <div className="w-full flex justify-center">
+              <div className="md:w-[70%] w-full">
                 <h2 className="font-bold text-xl mb-6">
                   {blogData.comments.length} Comment
                   {blogData.comments.length === 1 ? "" : "s"}
                 </h2>
                 <div className="flex gap-4 w-full">
-                  <div className="relative">
-                    <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
-                    <img
-                      className="h-12 w-12 rounded-full cursor-pointer"
-                      src={arrayBufferToBase64ImgSrc(user.img.data)}
-                      alt="Profile"
-                    />
-                  </div>
+                  <img
+                    className="h-12 w-12 rounded-full cursor-pointer border-4 border-black"
+                    src={arrayBufferToBase64ImgSrc(user.img.data)}
+                    alt="Profile"
+                  />
                   <Formik
                     initialValues={{ comment: "" }}
                     onSubmit={handleSubmitComment}
                   >
                     {({ handleSubmit }) => (
-                      <Form>
+                      <Form className="w-full h-24 mb-4">
                         <Field
                           as="textarea"
                           name="comment"
                           placeholder="Write a comment..."
-                          className="border rounded-md p-2 resize"
-                          style={{ height: "150px", width: "700px" }}
+                          className="border rounded-md p-2 resize w-full h-24"
                           onKeyDown={(event: any) => {
                             if (event.key === "Enter") {
                               event.preventDefault();
@@ -155,18 +149,14 @@ function BlogDetail() {
                 {blogData.comments &&
                   blogData.comments.map((comment, index) => {
                     return (
-                      <div key={index} className="mt-6 flex gap-4">
-                        <div className="relative">
-                          <div className="absolute top-[-2px] left-[-2px] h-[52px] w-[52px] bg-black rounded-full -z-10 hover:shadow-2xl"></div>
-                          <img
-                            className="h-12 w-12 rounded-full cursor-pointer"
-                            src={arrayBufferToBase64ImgSrc(
-                              comment.user.img.data
-                            )}
-                            alt="Profile"
-                          />
-                        </div>
-                        <div className="w-[80%]">
+                      <div key={index} className="my-6 flex gap-4 w-full">
+                        <img
+                          className="h-12 w-12 rounded-full cursor-pointer border-4 border-black"
+                          src={arrayBufferToBase64ImgSrc(comment.user.img.data)}
+                          alt="Profile"
+                        />
+
+                        <div className="w-full">
                           <h2 className="font-bold mb-2">
                             {comment.user.username}
                           </h2>

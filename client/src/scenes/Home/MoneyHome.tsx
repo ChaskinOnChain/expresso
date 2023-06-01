@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import money from "../assets/images/money.png";
-import calc from "../assets/images/calc.png";
-import computer from "../assets/images/computer.png";
+import money from "../../assets/images/money.png";
+import calc from "../../assets/images/calc.png";
+import computer from "../../assets/images/computer.png";
 
 function MoneyHome() {
   return (

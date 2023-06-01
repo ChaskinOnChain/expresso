@@ -1,4 +1,4 @@
-import NavbarHome from "../components/NavbarHome";
+import NavbarHome from "../../components/NavbarHome";
 import FirstHome from "./FirstHome";
 import WorldHome from "./WorldHome";
 import ConnectHome from "./ConnectHome";

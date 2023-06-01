@@ -4,24 +4,36 @@ import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { BlogReturn } from "../types/types";
 import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-arrayBufferToBase64ImgSrc;
 function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setViewportWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <div className="w-[50%]">
+    <div className="md:w-[50%] w-full">
       {blogsArray.map((blog, index) => {
+        const slicedContent =
+          viewportWidth > 768
+            ? blog.content.slice(0, 40)
+            : blog.content.slice(0, 130);
         return (
-          <div key={index} className="flex gap-4 mb-4">
-            <div className="w-[49%]">
+          <div key={index} className="flex md:flex-row flex-col gap-4 mb-6">
+            <div className="md:w-[49%] w-full">
               <Link to={`/discover/${blog._id}`}>
                 <img
-                  className="h-32 w-full"
+                  className="md:h-32 w-full"
                   src={arrayBufferToBase64ImgSrc(blog.img.data)}
                   alt={blog.title}
                 />
               </Link>
             </div>
-            <div className="w-[49%]">
+            <div className="md:w-[49%] w-full">
               <h4 className=" text-sm pb-2">
                 <Link to={`/profile/${blog.author._id}`}>
                   {blog.author.username}
@@ -39,7 +51,7 @@ function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
                   icon={faArrowUpRightFromSquare}
                 />
               </Link>
-              <p className="mb-2">{blog.content.slice(0, 40)}...</p>
+              <p className="mb-2">{slicedContent}...</p>
               <div className="flex gap-2">
                 <Tag name={blog.tags[0]} />
                 <Tag name={blog.tags[1]} />

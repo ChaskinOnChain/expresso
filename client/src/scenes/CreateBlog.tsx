@@ -56,7 +56,7 @@ function CreateBlog() {
   };
 
   return (
-    <div>
+    <div className="xl:w-[85rem] xl:mx-auto">
       <NavbarDiscover />
       <Formik
         onSubmit={handleFormSubmit}
@@ -64,7 +64,7 @@ function CreateBlog() {
         validationSchema={blogSchema}
       >
         {({ values, resetForm, setFieldValue }) => (
-          <Furm className="px-6 flex justify-center relative">
+          <Furm className="px-6 flex justify-center relative min-h-screen">
             {isModal && (
               <div className="absolute -top-[7rem] bg-black/50 h-screen w-screen flex justify-center items-center">
                 <div className="h-[18%] min-h-[210px] w-[31%] bg-white shadow-2xl rounded p-8">
@@ -90,7 +90,7 @@ function CreateBlog() {
                 </div>
               </div>
             )}
-            <div className="w-[75%] pr-4">
+            <div className="w-[75%]">
               <Field
                 name="title"
                 placeholder="Title"
@@ -131,12 +131,10 @@ function CreateBlog() {
                   </div>
                 )}
               </Dropzone>
-              <label className="text-slate-400" htmlFor="tags">
-                Tags
-              </label>
+              <label htmlFor="tags">Tags</label>
               <Field
                 id="tags"
-                placeholder="Seperate tags by comma"
+                placeholder="Seperate 3 tags by comma"
                 name="tags"
                 type="text"
                 className="w-full border-b-2 border-orange-500 mt-2 p-1"
@@ -149,6 +147,7 @@ function CreateBlog() {
               <Field
                 name="content"
                 as="textarea"
+                placeholder="Start Writing Your Blog Here"
                 className="border border-black mt-8 w-full p-2 h-1/2 min-h-[300px] max-h-[600px] resize-y"
               />
               <ErrorMessage
@@ -159,7 +158,7 @@ function CreateBlog() {
               <button
                 type="button"
                 onClick={() => setIsModal(true)}
-                className="w-full bg-orange-500 text-white text-xl p-3 rounded hover:bg-orange-400 transition duration-500 mb-5"
+                className="w-full bg-orange-500 text-white text-xl p-3 rounded hover:bg-orange-400 transition duration-500"
               >
                 <FontAwesomeIcon
                   className="font-bold mr-4"

@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import NavbarDiscover from "../components/NavbarDiscover";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,9 +6,11 @@ import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SingleBlog from "../components/SingleBlog";
 
-const API_URL = "http://localhost:3000/blogs/filter/?tags=";
+const API_URL_TAGS = "http://localhost:3000/blogs/filter/?tags=";
+const API_URL_SEARCH = "http://localhost:3000/blogs/search/?search="
 
-function TagResults() {
+function Results() {
+  const {name} = useParams();
   const [searchParams] = useSearchParams();
   const tag = searchParams.get("q");
   const token = useSelector((state) => state.app.user.token);
@@ -21,8 +23,8 @@ function TagResults() {
     async function findUser() {
       try {
         setIsLoading(true);
-        console.log(`${API_URL}${tag}`);
-        const res = await axios.get(`${API_URL}${tag}`, {
+        const API = name === "tag" ? `${API_URL_TAGS}${tag}` : `${API_URL_SEARCH}${tag}`
+        const res = await axios.get(API, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,11 +43,11 @@ function TagResults() {
   }, [tag]);
 
   return (
-    <div>
+    <div className="max-w-[90rem] w-full xl:mx-auto flex flex-col flex-grow">
       <NavbarDiscover />
       <div className="w-full h-full px-8">
         <h1 className="text-3xl font-bold">
-          Tag Results for <span className="capitalize">{tag}:</span>
+          {name === "tag" ? "Tag" : "Search"} Results for <span className="capitalize">{tag}:</span>
         </h1>
         <div className="flex flex-wrap gap-4 h-[40%] mt-6">
           {isLoading ? (
@@ -102,4 +104,4 @@ function TagResults() {
   );
 }
 
-export default TagResults;
+export default Results;

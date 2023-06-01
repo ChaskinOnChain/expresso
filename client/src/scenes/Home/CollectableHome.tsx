@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import watch from "../assets/images/watch.png";
-import phone from "../assets/images/phone.png";
-import camera from "../assets/images/camera.png";
+import watch from "../../assets/images/watch.png";
+import phone from "../../assets/images/phone.png";
+import camera from "../../assets/images/camera.png";
 
 function CollectableHome() {
   return (

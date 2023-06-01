@@ -51,14 +51,16 @@ function NavbarHome() {
             SIGN IN
           </button>
         </Link>
-        <motion.button
-          className="absolute top-3 right-4 p-4 bg-orange-500 text-white rounded hover:bg-orange-400"
-          initial={{ y: -100 }}
-          animate={{ y: scrollPosition > 50 ? 0 : -100 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-        >
-          CREATE YOUR BLOG
-        </motion.button>
+        <Link to="/login">
+          <motion.button
+            className="absolute top-3 right-4 p-4 bg-orange-500 text-white rounded hover:bg-orange-400"
+            initial={{ y: -100 }}
+            animate={{ y: scrollPosition > 50 ? 0 : -100 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            CREATE YOUR BLOG
+          </motion.button>
+        </Link>
       </div>
     </div>
   );

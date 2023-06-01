@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import brush from "../assets/images/brush.png";
-import blog1 from "../assets/images/blog1.png";
-import blog2 from "../assets/images/blog2.png";
+import brush from "../../assets/images/brush.png";
+import blog1 from "../../assets/images/blog1.png";
+import blog2 from "../../assets/images/blog2.png";
 
 function ConnectHome() {
   return (
