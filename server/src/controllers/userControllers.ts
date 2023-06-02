@@ -73,7 +73,6 @@ const updateUserInfo = async (req: Request, res: Response) => {
     }
 
     const { username, email, password, ethereum_address } = req.body;
-    console.log(req.body);
     if (!username && !email && !password && !req.file && !ethereum_address) {
       res.status(400);
       throw new Error("Nothing to update");

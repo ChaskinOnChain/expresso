@@ -12,9 +12,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "../state";
 
 function NavbarDiscover() {
   const naviagte = useNavigate();
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.app.user);
   const [showMenu, setShowMenu] = useState(false);
   const [isBarsWhite, setIsBarsWhite] = useState(false);
@@ -148,6 +151,7 @@ function NavbarDiscover() {
                       <div
                         onClick={() => {
                           localStorage.clear();
+                          dispatch(logoutSuccess());
                           naviagte("/login");
                         }}
                         className="flex item-center gap-2 cursor-pointer"

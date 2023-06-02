@@ -36,17 +36,7 @@ export const appSlice = createSlice({
   },
 });
 
-export const {
-  loginSuccess,
-  logoutSuccess,
-  updateUser,
-  setUserError,
-  setBlogs,
-  addBlog,
-  updateBlog,
-  setCurrentBlog,
-  setLoading,
-  setBlogError,
-} = appSlice.actions;
+export const { loginSuccess, logoutSuccess, updateUser, setUserError } =
+  appSlice.actions;
 
 export default appSlice.reducer;
