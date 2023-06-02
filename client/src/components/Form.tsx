@@ -291,7 +291,7 @@ const Form = ({ isLogin }: FormProps) => {
                 });
               }}
             >
-              {loginBool
+              {!loginBool
                 ? "Already have an account? Login here."
                 : "Don't have an account? Sign Up here."}
             </span>

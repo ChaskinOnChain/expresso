@@ -1,4 +1,3 @@
-import Footer from "../components/Footer";
 import NavbarDiscover from "../components/NavbarDiscover";
 import RecentBlogPosts from "./RecentBlogPosts";
 

@@ -7,42 +7,48 @@ function ConnectHome() {
   return (
     <div
       id="second-home"
-      className="relative h-[40rem] w-full bg-orange-500 pl-24 pt-20 pr-[30rem] text-white overflow-hidden"
+      className=" h-[40rem] w-full bg-orange-500 text-white"
     >
-      <h1 className="text-4xl mb-12">Connect With Other Bloggers</h1>
-      <h4 className="text-lg">
-        Interact with fellow bloggers by commenting on their posts, enriching
-        the discourse and building meaningful connections. Maintain control over
-        your content with the option to edit or delete your posts at any time,
-        giving you the freedom to evolve your online presence as you grow.
-      </h4>
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.75 }}
-      >
-        <img
-          className="absolute top-20 right-[10%] h-32 w-64"
-          src={brush}
-          alt="brush"
-        />
-      </motion.div>
+      <div className="relative h-full overflow-hidden w-full max-w-[90rem] xl:mx-auto">
+        <div className="absolute w-[32rem] top-[3rem] left-[6%] sm:left-[12%] md:left-[20%] lg:left-[30%]  text-center">
+          <h1 className="text-4xl mb-12">Connect With Other Bloggers</h1>
+          <h4 className="text-lg">
+            Interact with fellow bloggers by commenting on their posts,
+            enriching the discourse and building meaningful connections.
+            Maintain control over your content with the option to edit or delete
+            your posts at any time, giving you the freedom to evolve your online
+            presence as you grow.
+          </h4>
+        </div>
 
-      <img
-        className="absolute -bottom-[5rem] -right-[10rem] h-[30rem] w-[50rem]"
-        src={blog1}
-        alt="blog1"
-      />
-      <motion.div
-        className="h-[30rem] w-[50rem] "
-        initial={{ x: 999, y: 150 }}
-        whileInView={{ x: 450, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 1 }}
-      >
-        <img className="absolute" src={blog2} alt="blog2" />
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.75 }}
+        >
+          <img
+            className="absolute top-[60%] left-[10%] h-32 w-64"
+            src={brush}
+            alt="brush"
+          />
+        </motion.div>
+
+        <img
+          className="absolute -bottom-[5rem] -right-[10rem] h-[30rem] w-[50rem] hidden md:inline-block"
+          src={blog1}
+          alt="blog1"
+        />
+        <motion.div
+          className="h-[30rem] w-[50rem] "
+          initial={{ x: "180%", y: "60%" }}
+          whileInView={{ x: "100%", y: "60%" }}
+          viewport={{ once: true }}
+          transition={{ delay: 1 }}
+        >
+          <img className="absolute" src={blog2} alt="blog2" />
+        </motion.div>
+      </div>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { BlogReturn } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-const API_URL = "http://localhost:3000/blogs/all";
+const API_URL_BLOGS = "http://localhost:3000/blogs/all";
 
 function RecentBlogPosts() {
   const token = useSelector((state) => state.app.user.token);
@@ -20,7 +20,7 @@ function RecentBlogPosts() {
     async function getBlogs() {
       try {
         setIsLoading(true);
-        const res = await axios.get(API_URL, {
+        const res = await axios.get(API_URL_BLOGS, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -110,7 +110,7 @@ function NavbarDiscover() {
                 {showMenu && (
                   <motion.div
                     ref={menuRef}
-                    className="absolute w-30 bg-white border border-slate-300 shadow-xl rounded-xl top-16 right-5 p-4"
+                    className="absolute w-30 bg-white border border-slate-300 shadow-xl rounded-xl top-16 right-5 p-4 z-10"
                     initial={{ x: 500 }}
                     animate={{ x: 0 }}
                     exit={{ x: 500 }}

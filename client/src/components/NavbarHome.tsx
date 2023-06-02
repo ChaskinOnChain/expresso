@@ -21,7 +21,7 @@ function NavbarHome() {
 
   return (
     <div
-      className={`h-20 w-full flex justify-between items-center fixed transition duration-500 z-[100] ${
+      className={`h-20 flex justify-between items-center fixed transition duration-500 z-[100] xl:px-[11rem] ml-auto mr-auto left-0 right-0 ${
         scrollPosition > 50 ? "bg-white pr-44" : "bg-red-800"
       }`}
     >

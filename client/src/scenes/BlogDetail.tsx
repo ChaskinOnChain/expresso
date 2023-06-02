@@ -8,6 +8,7 @@ import { BlogReturn } from "../types/types";
 import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
 import { Formik, Field, Form } from "formik";
 import LoadingSpinner from "../components/LoadingSpinner";
+import Delete from "../components/Delete";
 
 const API_URL_BLOGS = "http://localhost:3000/blogs/";
 function BlogDetail() {
@@ -76,11 +77,14 @@ function BlogDetail() {
             </ul>
             <h1 className="mt-2 font-bold text-3xl">{blogData.title}</h1>
             <div className="h-[1px] w-full bg-black my-4"></div>
-            <img
-              className="max-h-[400px] w-full"
-              src={arrayBufferToBase64ImgSrc(blogData.img.data)}
-              alt=""
-            />
+            <div className="relative">
+              <img
+                className="max-h-[400px] w-full"
+                src={arrayBufferToBase64ImgSrc(blogData.img.data)}
+                alt=""
+              />
+              {user.role === "admin" && <Delete id={id} />}
+            </div>
             <div className="py-4 flex items-center justify-between">
               <div className="flex gap-4">
                 <img
@@ -155,12 +159,12 @@ function BlogDetail() {
                           src={arrayBufferToBase64ImgSrc(comment.user.img.data)}
                           alt="Profile"
                         />
-
-                        <div className="w-full">
+                        <div className="w-full relative">
                           <h2 className="font-bold mb-2">
                             {comment.user.username}
                           </h2>
                           <p>{comment.comment}</p>
+                          {user.role === "admin" && <Delete id={id} />}
                         </div>
                       </div>
                     );
