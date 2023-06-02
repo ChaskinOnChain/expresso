@@ -12,22 +12,6 @@ const initialState = {
     error: null,
     token: null,
   },
-  blogs: {
-    data: [],
-    error: null,
-    isLoading: false,
-    searchQuery: "",
-    filterTags: [],
-    currentBlog: {
-      id: null,
-      title: null,
-      author: null,
-      date: null,
-      content: null,
-      tags: [],
-      comments: [],
-    },
-  },
 };
 
 export const appSlice = createSlice({
@@ -48,32 +32,6 @@ export const appSlice = createSlice({
     },
     setUserError: (state, action) => {
       state.user.error = action.payload;
-    },
-    setBlogs: (state, action) => {
-      state.blogs.data = action.payload;
-    },
-    addBlog: (state, action) => {
-      state.blogs.data.push(action.payload);
-    },
-    updateBlog: (state, action) => {
-      const index = state.blogs.data.findIndex(
-        (blog) => blog.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.blogs.data[index] = {
-          ...state.blogs.data[index],
-          ...action.payload,
-        };
-      }
-    },
-    setCurrentBlog: (state, action) => {
-      state.blogs.currentBlog = action.payload;
-    },
-    setLoading: (state, action) => {
-      state.blogs.isLoading = action.payload;
-    },
-    setBlogError: (state, action) => {
-      state.blogs.error = action.payload;
     },
   },
 });

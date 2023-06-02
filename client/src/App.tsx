@@ -7,6 +7,7 @@ import ProfilePage from "./scenes/ProfilePage";
 import BlogDetail from "./scenes/BlogDetail";
 import Results from "./scenes/Results";
 import Footer from "./components/Footer";
+import Update from "./scenes/Update";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <div className="flex flex-col min-h-screen">
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/update" element={<Update />} />
           <Route path="/discover" element={<Discover />} />
           <Route path="/discover/:id" element={<BlogDetail />} />
           <Route path="/create" element={<CreateBlog />} />

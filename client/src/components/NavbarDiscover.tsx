@@ -3,11 +3,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { arrayBufferToBase64ImgSrc } from "../utils/utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass, faBars } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMagnifyingGlass,
+  faBars,
+  faUser,
+  faEdit,
+  faSignOut,
+} from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 function NavbarDiscover() {
   const naviagte = useNavigate();
   const state = useSelector((state) => state.app.user);
+  const [showMenu, setShowMenu] = useState(false);
+  const [isBarsWhite, setIsBarsWhite] = useState(false);
 
   function handleKey(e) {
     if (e.key === "Enter") {
@@ -16,6 +26,27 @@ function NavbarDiscover() {
       e.target.blur();
     }
   }
+
+  const menuRef = useRef();
+  const buttonRef = useRef();
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowMenu(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="h-28 w-full flex justify-between items-center max-w-[90rem] xl:mx-auto">
@@ -38,7 +69,7 @@ function NavbarDiscover() {
           />
         </div>
       </div>
-      <div className="">
+      <div className="relative">
         <div className="mr-6 md:flex items-center gap-4 hidden md:inline-block">
           <Link to="/create">
             <button className="border-[3px] border-black shadow-md cursor-pointer font-bold tracking-wider px-2 py-1 rounded-md hover:bg-black hover:text-white transition duration-500">
@@ -51,13 +82,87 @@ function NavbarDiscover() {
             </button>
           </Link>
           {state && (
-            <Link to={`/profile/${state._id}`}>
-              <img
-                className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl border-4 border-black"
-                src={arrayBufferToBase64ImgSrc(state.img.data)}
-                alt="Profile"
-              />
-            </Link>
+            <>
+              <div
+                ref={buttonRef}
+                onClick={() => setShowMenu((prev) => !prev)}
+                className="flex justify-center items-center border-black border-4 pl-4 rounded-[2rem] cursor-pointer hover:bg-black transition duration-500"
+                onMouseEnter={() => setIsBarsWhite(true)}
+                onMouseLeave={() => setIsBarsWhite(false)}
+              >
+                <FontAwesomeIcon
+                  className={`mr-2 text-2xl ${
+                    isBarsWhite && "text-white"
+                  } transition duration-500`}
+                  icon={faBars}
+                />
+                <img
+                  className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl "
+                  src={arrayBufferToBase64ImgSrc(state.img.data)}
+                  alt="Profile"
+                />
+              </div>
+
+              <AnimatePresence>
+                {showMenu && (
+                  <motion.div
+                    ref={menuRef}
+                    className="absolute w-30 bg-white border border-slate-300 shadow-xl rounded-xl top-16 right-5 p-4"
+                    initial={{ x: 500 }}
+                    animate={{ x: 0 }}
+                    exit={{ x: 500 }}
+                  >
+                    <div className="flex">
+                      <img
+                        className="h-[60px] w-[60px] rounded-full border-4 border-black mr-4"
+                        src={arrayBufferToBase64ImgSrc(state.img.data)}
+                        alt="Profile"
+                      />
+                      <div className="flex flex-col justify-center">
+                        <h3 className="font-bold">{state.username}</h3>
+                        <h4 className="text-sm">{state.email}</h4>
+                      </div>
+                    </div>
+                    <div className="h-[1px] w-[95%] bg-slate-300 mx-auto mt-3 mb-6"></div>
+                    <div className="flex flex-col gap-3">
+                      <Link
+                        to={`/profile/${state._id}`}
+                        className="flex item-center gap-2 cursor-pointer"
+                      >
+                        <FontAwesomeIcon
+                          className="mr-2 text-xl"
+                          icon={faUser}
+                        />
+                        <h4>Profile Page</h4>
+                      </Link>
+                      <Link
+                        to="/update"
+                        className="flex item-center gap-2 cursor-pointer"
+                      >
+                        <FontAwesomeIcon
+                          className="mr-2 text-xl"
+                          icon={faEdit}
+                        />
+                        <h4>Edit Account</h4>
+                      </Link>
+                      <div
+                        onClick={() => {
+                          localStorage.clear();
+                          naviagte("/login");
+                        }}
+                        className="flex item-center gap-2 cursor-pointer"
+                      >
+                        <FontAwesomeIcon
+                          className="mr-2 text-xl"
+                          icon={faSignOut}
+                        />
+                        <h4>Sign Out</h4>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </>
           )}
         </div>
         <FontAwesomeIcon className="mr-6 text-2xl md:hidden" icon={faBars} />
