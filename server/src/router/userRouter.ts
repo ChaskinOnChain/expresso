@@ -18,7 +18,7 @@ userRouter.route("/signup").post(uploadMiddleware.single("img"), signUp);
 userRouter.route("/login").post(logIn);
 userRouter
   .route("/me")
-  .put(verifyJWT, updateUserInfo)
+  .put(uploadMiddleware.single("img"), verifyJWT, updateUserInfo)
   .delete(verifyJWT, deleteUser);
 userRouter.route("/:id").get(verifyJWT, viewUser);
 

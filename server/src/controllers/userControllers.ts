@@ -67,15 +67,16 @@ const logIn = asyncHandler(async (req: Request, res: Response) => {
 
 const updateUserInfo = async (req: Request, res: Response) => {
   try {
-    const { username, email, password } = req.body;
-    if (!username && !email && !password) {
-      res.status(400);
-      throw new Error("Nothing to update");
-    }
-
     if (!req.user) {
       res.status(401);
       throw new Error("Unauthorized");
+    }
+
+    const { username, email, password, ethereum_address } = req.body;
+    console.log(req.body);
+    if (!username && !email && !password && !req.file && !ethereum_address) {
+      res.status(400);
+      throw new Error("Nothing to update");
     }
 
     const user = await User.findById(req.user._id);
@@ -84,11 +85,18 @@ const updateUserInfo = async (req: Request, res: Response) => {
       res.status(400);
       throw new Error("No user");
     }
+    if (req.file) {
+      const imgBuffer = req.file.buffer;
+      user.img = imgBuffer;
+    }
+
     user.username = username || user.username;
     user.email = email || user.email;
     user.password = password || user.password;
-    await user.save();
-    res.status(200).json({ message: "Info updated" });
+    user.ethereum_address = ethereum_address || user.ethereum_address;
+
+    const savedUser = await user.save();
+    res.status(200).json({ message: "Info updated", data: savedUser });
   } catch (error) {
     console.log(error);
     res.status(500);

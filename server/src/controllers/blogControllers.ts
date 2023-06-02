@@ -45,24 +45,12 @@ const viewYourOwnBlogs = async (req: Request, res: Response) => {
       res.status(401);
       throw new Error("Unauthorized");
     }
-    const search = req.query.search;
 
-    const page: number = parseInt(String(req.query.page)) || 1;
-    const limit: number = parseInt(String(req.query.limit)) || 10;
+    const blogs = await Blog.find({ author: req.user._id }).sort({
+      createdAt: "desc",
+    });
 
-    if (!search) {
-      res.status(400);
-      throw new Error("Nothing to search");
-    }
-
-    const options = {
-      page,
-      limit,
-      sort: { createdAt: "desc" },
-    };
-    const query = { author: req.user._id };
-    const result = await Blog.paginate(query, options);
-    res.status(200).json({ message: "your blogs", data: result });
+    res.status(200).json({ message: "your blogs", data: blogs });
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -77,18 +65,11 @@ const viewAllBlogs = async (req: Request, res: Response) => {
       throw new Error("Unauthorized");
     }
 
-    const page: number = parseInt(String(req.query.page)) || 1;
-    const limit: number = parseInt(String(req.query.limit)) || 10;
+    const blogs = await Blog.find()
+      .sort({ date: -1 })
+      .populate({ path: "author", select: "username" });
 
-    const options = {
-      page,
-      limit,
-      sort: { date: -1 },
-      populate: { path: "author", select: "username" },
-    };
-    const query = {};
-    const result = await Blog.paginate(query, options);
-    res.status(200).json({ message: "all blogs", data: result });
+    res.status(200).json({ message: "all blogs", data: blogs });
   } catch (error) {
     console.log(error);
     res.status(500);
@@ -170,25 +151,18 @@ const searchBlogs = async (req: Request, res: Response) => {
   try {
     const search = req.query.search;
 
-    const page: number = parseInt(String(req.query.page)) || 1;
-    const limit: number = parseInt(String(req.query.limit)) || 10;
-
     if (!search) {
       res.status(400);
       throw new Error("Nothing to search");
     }
-    const options = {
-      page,
-      limit,
-      sort: { createdAt: "desc" },
-    };
 
-    const query = { $text: { $search: search } };
+    const blogs = await Blog.find({ $text: { $search: search } }).sort({
+      createdAt: "desc",
+    });
 
-    const result = await Blog.paginate(query, options);
     res.status(200).json({
       message: "Search results",
-      data: result,
+      data: blogs,
     });
   } catch (error) {
     console.log(error);
@@ -217,7 +191,6 @@ const deletePostOrComment = async (req: Request, res: Response) => {
 const filterByTag = async (req: Request, res: Response) => {
   try {
     const tags = req.query.tags;
-    console.log(tags);
     if (!tags) {
       res.status(400);
       throw new Error("Nothing to search");
