@@ -195,7 +195,7 @@ const Form = ({ isLogin }: FormProps) => {
                           className="hidden"
                           name="img"
                           type="file"
-                          onChange={(event) => {
+                          onChange={(event: any) => {
                             form.setFieldValue(
                               field.name,
                               event.currentTarget.files[0]

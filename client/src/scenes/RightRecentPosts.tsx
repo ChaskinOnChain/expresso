@@ -5,11 +5,8 @@ import { BlogReturn } from "../types/types";
 import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import Delete from "../components/Delete";
 
 function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
-  const userState = useSelector((state) => state.app.user);
   const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -27,16 +24,15 @@ function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
             : blog.content.slice(0, 130);
         return (
           <div key={index} className="flex md:flex-row flex-col gap-4 mb-6">
-            <div className="md:w-[49%] w-full">
+            <div className="md:w-[49%] h-full w-full">
               <div className="relative">
                 <Link to={`/discover/${blog._id}`}>
                   <img
-                    className="md:h-32 w-full"
+                    className="md:h-32 h-full w-full"
                     src={arrayBufferToBase64ImgSrc(blog.img.data)}
                     alt={blog.title}
                   />
                 </Link>
-                {userState.role === "admin" && <Delete id={blog._id} />}
               </div>
             </div>
             <div className="md:w-[49%] w-full">

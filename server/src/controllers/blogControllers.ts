@@ -173,8 +173,6 @@ const searchBlogs = async (req: Request, res: Response) => {
 
 const deletePostOrComment = async (req: Request, res: Response) => {
   try {
-    console.log(req.params);
-
     const { id } = req.params;
     const blog = await Blog.findById(id);
     if (!blog) {

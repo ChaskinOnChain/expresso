@@ -14,15 +14,16 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../state";
+import { AppState } from "../types/types";
 
 function NavbarDiscover() {
   const naviagte = useNavigate();
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.app.user);
+  const state = useSelector((state: AppState) => state.app.user);
   const [showMenu, setShowMenu] = useState(false);
   const [isBarsWhite, setIsBarsWhite] = useState(false);
 
-  function handleKey(e) {
+  function handleKey(e: any) {
     if (e.key === "Enter") {
       naviagte(`http://localhost:5173/search/name/?q=${e.target.value}`);
       e.target.value = "";
@@ -30,11 +31,11 @@ function NavbarDiscover() {
     }
   }
 
-  const menuRef = useRef();
-  const buttonRef = useRef();
+  const menuRef = useRef<HTMLDivElement | null>(null);
+  const buttonRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: any) {
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
@@ -73,7 +74,7 @@ function NavbarDiscover() {
         </div>
       </div>
       <div className="relative">
-        <div className="mr-6 md:flex items-center gap-4 hidden md:inline-block">
+        <div className="mr-6 md:flex items-center gap-4 hidden">
           <Link to="/create">
             <button className="border-[3px] border-black shadow-md cursor-pointer font-bold tracking-wider px-2 py-1 rounded-md hover:bg-black hover:text-white transition duration-500">
               Create Blog
@@ -99,11 +100,13 @@ function NavbarDiscover() {
                   } transition duration-500`}
                   icon={faBars}
                 />
-                <img
-                  className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl "
-                  src={arrayBufferToBase64ImgSrc(state.img.data)}
-                  alt="Profile"
-                />
+                {state && state.img && (
+                  <img
+                    className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl "
+                    src={arrayBufferToBase64ImgSrc(state.img.data)}
+                    alt="Profile"
+                  />
+                )}
               </div>
 
               <AnimatePresence>

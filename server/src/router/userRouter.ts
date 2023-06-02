@@ -21,12 +21,10 @@ userRouter
   .put(uploadMiddleware.single("img"), verifyJWT, updateUserInfo)
   .delete(verifyJWT, deleteUser);
 userRouter.route("/:id").get(verifyJWT, viewUser);
+userRouter.route("/blog/:id").delete(verifyJWT, deletePostOrComment);
 
 const adminRouter = express.Router();
 
 adminRouter.route("/").get(verifyJWT, verifyAdmin, viewUsers);
-adminRouter
-  .route("/blog/:id")
-  .delete(verifyJWT, verifyAdmin, deletePostOrComment);
 
 export { userRouter, adminRouter };

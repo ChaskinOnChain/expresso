@@ -1,14 +1,9 @@
 import Tag from "../components/Tag";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowUpRightFromSquare,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
 import { LeftRecentProps } from "../types/types";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Delete from "../components/Delete";
 
 function LeftRecentPosts({
   id,
@@ -19,8 +14,6 @@ function LeftRecentPosts({
   tags,
   img,
 }: LeftRecentProps) {
-  const userState = useSelector((state) => state.app.user);
-  console.log(userState.role);
   return (
     <div className="md:w-[50%] w-full">
       <div className="relative">
@@ -31,7 +24,6 @@ function LeftRecentPosts({
             alt="la"
           />
         </Link>
-        {userState.role === "admin" && <Delete id={id} />}
       </div>
 
       <h4 className="pt-6 text-sm pb-2">

@@ -1,5 +1,3 @@
-import { Types } from "mongoose";
-
 export interface ApiRequestRegister {
   img?: any;
   adminPassword?: string | undefined;
@@ -23,6 +21,8 @@ export interface User {
   ethereum_address: string;
   role: "" | "user" | "admin";
   token: string;
+  _id: string;
+  blogs: Blog[];
   [key: string]: any;
 }
 
@@ -31,22 +31,32 @@ export interface FormProps {
 }
 
 export interface Comment {
-  _id: Types.ObjectId;
+  _id: string;
+  user: {
+    _id: string;
+    username: string;
+    img: any;
+  };
   comment: string;
 }
 
 export interface Blog {
   title: string;
   Author?: string;
-  date: string;
+  date: Date;
   content: string;
   tags?: string[];
-  comments: Comment[];
+  comments?: Comment[];
+  _id: string;
+  img: any;
 }
 
 export interface BlogReturn {
   title: string;
   author: {
+    email: string;
+    ethereum_address: string;
+    img: any;
     _id: string;
     username: string;
   };
@@ -54,7 +64,7 @@ export interface BlogReturn {
   date: Date;
   tags: string[];
   img: any;
-  comments: string[];
+  comments: Comment[];
   _id: string;
 }
 
@@ -86,6 +96,34 @@ export type SingleBlogProps = {
   title: string;
   date: Date;
   index: number;
-  tags: string[];
+  tags?: string[];
   id: string;
 };
+
+export interface AppState {
+  app: {
+    user: {
+      _id: null | string;
+      username: null | string;
+      email: null | string;
+      ethereum_address: null | string;
+      role: null | string;
+      img: any;
+      isLoggedIn: boolean;
+      error: null | string;
+      token: null | string;
+    };
+  };
+}
+
+export type MyFormValues = {
+  comment: string;
+};
+
+export interface ValuesBlogType {
+  title: string;
+  content: string;
+  img: any;
+  tags?: string[];
+  [key: string]: any;
+}

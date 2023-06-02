@@ -22,10 +22,10 @@ export const appSlice = createSlice({
       state.user = { ...state.user, ...action.payload.user };
       state.user.token = action.payload.token;
       state.user.isLoggedIn = true;
-      state.blogs.data = [...state.blogs.data, ...action.payload.blogs];
     },
     logoutSuccess: (state) => {
       state.user = initialState.user;
+      localStorage.clear();
     },
     updateUser: (state, action) => {
       state.user = { ...state.user, ...action.payload };
@@ -36,7 +36,12 @@ export const appSlice = createSlice({
   },
 });
 
-export const { loginSuccess, logoutSuccess, updateUser, setUserError } =
-  appSlice.actions;
+export const {
+  loginSuccess,
+  logoutSuccess,
+  updateUser,
+  setUserError,
+  setLoading,
+} = appSlice.actions;
 
 export default appSlice.reducer;

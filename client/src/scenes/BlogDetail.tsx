@@ -4,15 +4,15 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavbarDiscover from "../components/NavbarDiscover";
 import Tag from "../components/Tag";
-import { BlogReturn } from "../types/types";
+import { AppState, BlogReturn, Comment, MyFormValues } from "../types/types";
 import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, FormikHelpers } from "formik";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Delete from "../components/Delete";
 
 const API_URL_BLOGS = "http://localhost:3000/blogs/";
 function BlogDetail() {
-  const user = useSelector((state) => state.app.user);
+  const user = useSelector((state: AppState) => state.app.user);
 
   const { id } = useParams<{ id: string }>();
   const [blogData, setBlogData] = useState<BlogReturn | null>(null);
@@ -38,16 +38,16 @@ function BlogDetail() {
     getBlog();
   }, [id, user]);
 
-  const handleSubmitComment = async (values, { resetForm }) => {
+  const handleSubmitComment = async (
+    values: MyFormValues,
+    { resetForm }: FormikHelpers<MyFormValues>
+  ) => {
     try {
       const res = await axios.post(`${API_URL_BLOGS}${id}`, values, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      const data = res.data;
-      console.log(data);
-
       resetForm({});
 
       getBlog();
@@ -83,7 +83,8 @@ function BlogDetail() {
                 src={arrayBufferToBase64ImgSrc(blogData.img.data)}
                 alt=""
               />
-              {user.role === "admin" && <Delete id={id} />}
+              {user.role === "admin" ||
+                (blogData.author._id === user._id && <Delete id={id} />)}
             </div>
             <div className="py-4 flex items-center justify-between">
               <div className="flex gap-4">
@@ -151,7 +152,7 @@ function BlogDetail() {
                   </Formik>
                 </div>
                 {blogData.comments &&
-                  blogData.comments.map((comment, index) => {
+                  blogData.comments.map((comment: Comment, index: number) => {
                     return (
                       <div key={index} className="my-6 flex gap-4 w-full">
                         <img
@@ -164,7 +165,10 @@ function BlogDetail() {
                             {comment.user.username}
                           </h2>
                           <p>{comment.comment}</p>
-                          {user.role === "admin" && <Delete id={id} />}
+                          {user.role === "admin" ||
+                            (comment.user._id === user._id && (
+                              <Delete id={id} />
+                            ))}
                         </div>
                       </div>
                     );

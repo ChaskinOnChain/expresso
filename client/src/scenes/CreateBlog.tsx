@@ -1,13 +1,20 @@
 import { useState } from "react";
 import NavbarDiscover from "../components/NavbarDiscover";
-import { ErrorMessage, Field, Formik, Form as Furm } from "formik";
+import {
+  ErrorMessage,
+  Field,
+  Formik,
+  Form as Furm,
+  FormikHelpers,
+} from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faPencil } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
+import { AppState, ValuesBlogType } from "../types/types";
 
 const API_URL = "http://localhost:3000/blogs";
 
@@ -21,15 +28,18 @@ const initialValuesBlog = {
   title: "",
   content: "",
   img: "",
-  tags: "",
+  tags: [],
 };
 
 function CreateBlog() {
   const [isModal, setIsModal] = useState(false);
-  const token = useSelector((state) => state.app.user.token);
+  const token = useSelector((state: AppState) => state.app.user.token);
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (values, onSubmitProps) => {
+  const handleFormSubmit = async (
+    values: ValuesBlogType,
+    onSubmitProps: FormikHelpers<ValuesBlogType>
+  ) => {
     const formData = new FormData();
     formData.append("img", values.img);
     for (const key in values) {
@@ -37,18 +47,15 @@ function CreateBlog() {
         formData.append(key, values[key]);
       }
     }
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ", " + pair[1]);
-    }
     try {
-      const res = await axios.post(API_URL, formData, {
+      await axios.post(API_URL, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(res.data);
       setIsModal(false);
+      onSubmitProps.resetForm();
       navigate("/discover");
     } catch (error) {
       console.log(error);
@@ -63,11 +70,11 @@ function CreateBlog() {
         initialValues={initialValuesBlog}
         validationSchema={blogSchema}
       >
-        {({ values, resetForm, setFieldValue }) => (
+        {({ values, setFieldValue }) => (
           <Furm className="px-6 flex justify-center relative min-h-screen">
             {isModal && (
               <div className="absolute -top-[7rem] bg-black/50 h-screen w-screen flex justify-center items-center">
-                <div className="h-[18%] min-h-[210px] w-[31%] bg-white shadow-2xl rounded p-8">
+                <div className="h-[18%] min-h-[210px] w-[31%] bg-white shadow-2xl rounded md:p-8 px-1 pt-8">
                   <h1 className="font-bold text-2xl mb-4">Publish post?</h1>
                   <p className="mb-9">
                     This will publish this post to your blog.
@@ -81,7 +88,7 @@ function CreateBlog() {
                       CANCEL
                     </button>
                     <button
-                      className="ml-8 font-bold text-orange-500"
+                      className="md:ml-8 ml-1 font-bold text-orange-500"
                       type="submit"
                     >
                       CONFIRM

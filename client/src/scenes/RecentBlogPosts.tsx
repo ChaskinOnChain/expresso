@@ -3,19 +3,20 @@ import LeftRecentPosts from "./LeftRecentPosts";
 import RightRecentPosts from "./RightRecentPosts";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { BlogReturn } from "../types/types";
+import { AppState, BlogReturn } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const API_URL_BLOGS = "http://localhost:3000/blogs/all";
 
 function RecentBlogPosts() {
-  const token = useSelector((state) => state.app.user.token);
+  const token = useSelector((state: AppState) => state.app.user.token);
   const [firstBlog, setFirstBlog] = useState<BlogReturn | null>(null);
   const [blogsTwoThruFour, setBlogsTwoThruFour] = useState<BlogReturn[] | null>(
     null
   );
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     async function getBlogs() {
       try {
@@ -26,10 +27,10 @@ function RecentBlogPosts() {
           },
         });
         const data = res.data;
-        console.log(data.data);
         setFirstBlog(data.data[0]);
         setBlogsTwoThruFour(data.data.slice(1, 4));
       } catch (error) {
+        navigate("/login");
         console.log(error);
       } finally {
         setIsLoading(false);

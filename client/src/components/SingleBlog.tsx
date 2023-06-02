@@ -34,9 +34,9 @@ const SingleBlog = ({
         <h3 className="font-bold">{title}</h3>
         <h4>{convertDate(date)}</h4>
         <div className="flex gap-1">
-          <Tag name={tags[0]} />
-          <Tag name={tags[1]} />
-          <Tag name={tags[2]} />
+          <Tag name={tags?.[0]} />
+          <Tag name={tags?.[1]} />
+          <Tag name={tags?.[2]} />
         </div>
       </motion.div>
     </Link>
