@@ -22,7 +22,7 @@ function CollectableHome() {
         <motion.div
           className="absolute lg:block hidden"
           initial={{ x: "-100%", y: "50%" }}
-          whileInView={{ x: 0, y: "50%" }}
+          whileInView={{ x: 30, y: "50%" }}
           viewport={{ once: true }}
           transition={{ delay: 0.75 }}
         >

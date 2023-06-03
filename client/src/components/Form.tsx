@@ -1,11 +1,9 @@
-import { Formik, Field, ErrorMessage, Form as Furm } from "formik";
+import { Formik, Field, Form as Furm } from "formik";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 import { loginSuccess } from "../state";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-
 import {
   ApiRequestLogin,
   ApiRequestRegister,
@@ -13,9 +11,14 @@ import {
   FormProps,
   User,
 } from "../types/types";
+import {
+  validationSchemaLogin,
+  validationSchemaRegister,
+} from "../schemas/schemas";
+import FormField from "./FormField";
 
-const API_URL_LOGIN = "http://localhost:3000/users/login";
-const API_URL_REGISTER = "http://localhost:3000/users/signup";
+const API_URL_LOGIN = import.meta.env.VITE_APP_API_URL_LOGIN;
+const API_URL_REGISTER = import.meta.env.VITE_APP_API_URL_REGISTER;
 
 type ApiRequest = ApiRequestLogin | ApiRequestRegister;
 
@@ -40,28 +43,6 @@ const initialValuesLogin: ApiRequestLogin = {
 };
 
 const inputClass = `border border-slate-300 w-full p-2 rounded mt-6`;
-
-const validationSchemaLogin = yup.object({
-  email: yup.string().email("Invalid email address").required("Required"),
-  password: yup.string().required("Required"),
-});
-
-const validationSchemaRegister = yup.object({
-  username: yup.string().required("Required"),
-  email: yup.string().email("Invalid email address").required("Required"),
-  password: yup.string().required("Required"),
-  ethereum_address: yup
-    .string()
-    .matches(/^0x[a-fA-F0-9]{40}$/, "Invalid Ethereum address")
-    .required("Required"),
-  role: yup
-    .string()
-    .oneOf(["user", "admin", ""], "Invalid role")
-    .required("Role is required"),
-  adminPassword: yup.string().when("role", (role: any, schema) => {
-    return role === "admin" ? schema.required("Required") : schema;
-  }),
-});
 
 const Form = ({ isLogin }: FormProps) => {
   const [loginBool, setloginBool] = useState(isLogin);
@@ -175,17 +156,7 @@ const Form = ({ isLogin }: FormProps) => {
             </h3>
             {!loginBool && (
               <>
-                <Field
-                  name="username"
-                  placeholder="Username"
-                  type="text"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="username"
-                  component="div"
-                />
+                <FormField name="username" placeholder="Username" type="text" />
                 <div className="mt-6">
                   <Field
                     component={({ field, form }) => (
@@ -222,16 +193,10 @@ const Form = ({ isLogin }: FormProps) => {
                     }}
                   />
                 </div>
-                <Field
+                <FormField
                   name="ethereum_address"
                   placeholder="Ethereum Address"
                   type="text"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="ethereum_address"
-                  component="div"
                 />
                 <Field className={inputClass} as="select" name="role">
                   <option value="user">User</option>
@@ -239,43 +204,17 @@ const Form = ({ isLogin }: FormProps) => {
                 </Field>
                 {!loginBool && "role" in values && values.role === "admin" && (
                   <>
-                    <Field
+                    <FormField
+                      name="adminPassword"
                       placeholder="Admin Password"
                       type="password"
-                      name="adminPassword"
-                      className={inputClass}
-                    />
-                    <ErrorMessage
-                      className="text-red-500"
-                      name="adminPassword"
-                      component="div"
                     />
                   </>
                 )}
               </>
             )}
-            <Field
-              name="email"
-              placeholder="Email"
-              type="email"
-              className={inputClass}
-            />
-            <ErrorMessage
-              className="text-red-500"
-              name="email"
-              component="div"
-            />
-            <Field
-              name="password"
-              placeholder="Password"
-              type="password"
-              className={inputClass}
-            />
-            <ErrorMessage
-              className="text-red-500"
-              name="password"
-              component="div"
-            />
+            <FormField name="email" placeholder="Email" type="email" />
+            <FormField name="password" placeholder="Password" type="password" />
             <button
               type="submit"
               className="w-full bg-sky-500 text-white p-3 rounded hover:bg-sky-400 transition duration-500 mb-8 mt-8"

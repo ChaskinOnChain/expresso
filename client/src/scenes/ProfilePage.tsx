@@ -8,7 +8,8 @@ import { AppState, Blog, User } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { arrayBufferToBase64ImgSrc } from "../utils/utils";
 
-const API_URL = "http://localhost:3000/users/";
+const API_URL_USERS = import.meta.env.VITE_APP_API_URL_USERS;
+
 function ProfilePage() {
   const token = useSelector((state: AppState) => state.app.user.token);
   const { id } = useParams();
@@ -17,11 +18,13 @@ function ProfilePage() {
   const [showMoreButton, setShowMoreButton] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  const BLOG_LIMIT = 6;
+
   useEffect(() => {
     async function findUser() {
       try {
         setIsLoading(true);
-        const res = await axios.get(`${API_URL}${id}`, {
+        const res = await axios.get(`${API_URL_USERS}${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -73,7 +76,7 @@ function ProfilePage() {
               <div className="flex flex-wrap gap-4 mt-6">
                 {currentUser &&
                   currentUser.blogs
-                    .slice(0, 6)
+                    .slice(0, BLOG_LIMIT)
                     .map((blog: Blog, index: number) => {
                       return (
                         <SingleBlog
@@ -89,7 +92,7 @@ function ProfilePage() {
                         />
                       );
                     })}
-                {isLoading ? null : currentUserBlogs?.length > 6 &&
+                {isLoading ? null : currentUserBlogs?.length > BLOG_LIMIT &&
                   showMoreButton ? (
                   <div className="w-full text-center mt-4">
                     <button
@@ -101,13 +104,13 @@ function ProfilePage() {
                   </div>
                 ) : (
                   currentUser?.blogs
-                    .slice(6)
+                    .slice(BLOG_LIMIT)
                     .map((blog: Blog, index: number) => {
                       return (
                         <SingleBlog
                           id={blog._id}
                           key={index}
-                          index={index + 6}
+                          index={index + BLOG_LIMIT}
                           hoveredIndex={hoveredIndex}
                           setHoveredIndex={setHoveredIndex}
                           img={blog.img}

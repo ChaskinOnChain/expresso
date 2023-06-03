@@ -24,7 +24,7 @@ const SingleBlog = ({
       <img
         className="w-full h-full"
         src={arrayBufferToBase64ImgSrc(img.data)}
-        alt="img"
+        alt={title}
       />
       <motion.div
         className="absolute -bottom-[65px] px-4 left-0 h-28 w-full bg-gray-300/90 flex flex-col gap-2 justify-center items-center"
@@ -34,9 +34,9 @@ const SingleBlog = ({
         <h3 className="font-bold">{title}</h3>
         <h4>{convertDate(date)}</h4>
         <div className="flex gap-1">
-          <Tag name={tags?.[0]} />
-          <Tag name={tags?.[1]} />
-          <Tag name={tags?.[2]} />
+          {tags?.slice(0, 3).map((tag, index) => (
+            <Tag key={index} name={tag} />
+          ))}
         </div>
       </motion.div>
     </Link>

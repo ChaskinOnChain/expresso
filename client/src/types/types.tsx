@@ -116,6 +116,21 @@ export interface AppState {
   };
 }
 
+export interface Values {
+  username: string;
+  img: any;
+  email: string;
+  password: string;
+  ethereum_address: string;
+  [key: string]: any;
+}
+
+export interface FormFieldProps {
+  name: string;
+  placeholder: string;
+  type: "text" | "email" | "password";
+}
+
 export type MyFormValues = {
   comment: string;
 };
@@ -126,4 +141,12 @@ export interface ValuesBlogType {
   img: any;
   tags?: string[];
   [key: string]: any;
+}
+
+export interface DeleteProps {
+  id: string | undefined;
+}
+
+export interface MenuProps {
+  menuRef: React.RefObject<HTMLDivElement>;
 }

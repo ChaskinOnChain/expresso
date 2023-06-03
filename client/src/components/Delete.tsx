@@ -4,22 +4,18 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { AppState } from "../types/types";
+import { AppState, DeleteProps } from "../types/types";
 
-const API_URL_ADMIN = "http://localhost:3000/users/blog/";
+const API_URL_ADMIN = import.meta.env.VITE_APP_API_API_ADMIN;
 
-interface props {
-  id: string | undefined;
-}
-
-function Delete({ id }: props) {
+function Delete({ id }: DeleteProps) {
   const token = useSelector((state: AppState) => state.app.user.token);
   const navigate = useNavigate();
   const [isClose, setIsClose] = useState(false);
 
   async function handleSubmit() {
     try {
-      const res = await axios.delete(`${API_URL_ADMIN}${id}`, {
+      await axios.delete(`${API_URL_ADMIN}${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

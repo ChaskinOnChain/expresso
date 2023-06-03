@@ -34,13 +34,13 @@ function WorldHome() {
           <img src={fam} alt="fam" />
         </motion.div>
         <motion.div
-          className="absolute hidden lg:block"
+          className="absolute hidden lg:inline-block scale-75"
           initial={{ x: "800%", y: "190%" }}
           whileInView={{ x: "450%", y: "190%" }}
           viewport={{ once: true }}
           transition={{ delay: 1 }}
         >
-          <img className="scale-75" src={docs} alt="docs" />
+          <img src={docs} alt="docs" />
         </motion.div>
       </div>
       <img

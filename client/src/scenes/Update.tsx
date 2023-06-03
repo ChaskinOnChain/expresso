@@ -1,16 +1,19 @@
-import { Formik, Field, ErrorMessage, Form, FormikHelpers } from "formik";
+import { Formik, Form, FormikHelpers } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import LoginBar from "../components/LoginBar";
 import Dropzone from "react-dropzone";
 import { useNavigate } from "react-router-dom";
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { updateUser } from "../state";
-import { AppState } from "../types/types";
+import { AppState, Values } from "../types/types";
 import { useState } from "react";
 import { logoutSuccess } from "../state";
+import { validationSchema } from "../schemas/schemas";
+import FormField from "../components/FormField";
+
+const API_URL_USERS_ME = import.meta.env.VITE_APP_API_API_URL_ME;
 
 const initialValues = {
   username: "",
@@ -20,28 +23,7 @@ const initialValues = {
   ethereum_address: "",
 };
 
-interface Values {
-  username: string;
-  img: any;
-  email: string;
-  password: string;
-  ethereum_address: string;
-  [key: string]: any;
-}
-
-const validationSchema = yup.object({
-  username: yup.string(),
-  email: yup.string().email("Invalid email address"),
-  password: yup.string(),
-  ethereum_address: yup
-    .string()
-    .matches(/^0x[a-fA-F0-9]{40}$/, "Invalid Ethereum address"),
-});
-
-const API_URL = "http://localhost:3000/users/me/";
-
 function Update() {
-  const inputClass = `border border-slate-300 w-full p-2 rounded mt-6`;
   const navigate = useNavigate();
   const token = useSelector((state: AppState) => state.app.user.token);
   const dispatch = useDispatch();
@@ -64,7 +46,7 @@ function Update() {
         }
       }
 
-      const res = await axios.put(API_URL, formData, {
+      const res = await axios.put(API_URL_USERS_ME, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
@@ -81,7 +63,7 @@ function Update() {
 
   async function handleDelete() {
     try {
-      await axios.delete(API_URL, {
+      await axios.delete(API_URL_USERS_ME, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -109,28 +91,8 @@ function Update() {
                   Update Your Username, Email, Profile Picture, Ethereum Address
                   or Password
                 </h3>
-                <Field
-                  name="username"
-                  placeholder="Username"
-                  type="text"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="username"
-                  component="div"
-                />
-                <Field
-                  name="email"
-                  placeholder="Email"
-                  type="email"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="email"
-                  component="div"
-                />
+                <FormField name="username" placeholder="Username" type="text" />
+                <FormField name="email" placeholder="Email" type="email" />
                 <Dropzone
                   multiple={false}
                   accept={{ "image/*": [".jpeg", ".png", ".jpg"] }}
@@ -162,27 +124,15 @@ function Update() {
                     </>
                   )}
                 </Dropzone>
-                <Field
+                <FormField
                   name="ethereum_address"
                   placeholder="Ethereum Address"
                   type="text"
-                  className={inputClass}
                 />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="ethereum_address"
-                  component="div"
-                />
-                <Field
+                <FormField
                   name="password"
                   placeholder="Password"
                   type="password"
-                  className={inputClass}
-                />
-                <ErrorMessage
-                  className="text-red-500"
-                  name="password"
-                  component="div"
                 />
                 <button
                   type="submit"

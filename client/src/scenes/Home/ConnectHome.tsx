@@ -9,7 +9,7 @@ function ConnectHome() {
       id="second-home"
       className=" h-[40rem] w-full bg-orange-500 text-white"
     >
-      <div className="relative h-full overflow-hidden w-full max-w-[90rem] xl:mx-auto">
+      <div className="relative h-full overflow-y-hidden w-full max-w-[90rem] xl:mx-auto">
         <div className="absolute w-[32rem] top-[3rem] left-[6%] sm:left-[12%] md:left-[20%] lg:left-[30%]  text-center">
           <h1 className="text-4xl mb-12">Connect With Other Bloggers</h1>
           <h4 className="text-lg">
@@ -35,18 +35,18 @@ function ConnectHome() {
         </motion.div>
 
         <img
-          className="absolute -bottom-[5rem] -right-[10rem] h-[30rem] w-[50rem] hidden md:inline-block"
+          className="absolute bottom-[-3rem] right-[13rem] h-[30rem] w-[50rem] hidden xl:inline-block scale-75"
           src={blog1}
           alt="blog1"
         />
         <motion.div
-          className="h-[30rem] w-[50rem] "
-          initial={{ x: "180%", y: "60%" }}
-          whileInView={{ x: "100%", y: "60%" }}
+          className="h-[30rem] w-[50rem] absolute right-0 bottom-0 md:inline-block hidden"
+          initial={{ x: "100%", y: "30%" }}
+          whileInView={{ x: "13%", y: "-4%" }}
           viewport={{ once: true }}
           transition={{ delay: 1 }}
         >
-          <img className="absolute" src={blog2} alt="blog2" />
+          <img className="scale-75" src={blog2} alt="blog2" />
         </motion.div>
       </div>
     </div>

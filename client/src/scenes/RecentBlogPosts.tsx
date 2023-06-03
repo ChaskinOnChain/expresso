@@ -7,7 +7,7 @@ import { AppState, BlogReturn } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
 
-const API_URL_BLOGS = "http://localhost:3000/blogs/all";
+const API_URL_BLOGS_ALL = import.meta.env.VITE_APP_API_URL_BLOGS_ALL;
 
 function RecentBlogPosts() {
   const token = useSelector((state: AppState) => state.app.user.token);
@@ -21,7 +21,7 @@ function RecentBlogPosts() {
     async function getBlogs() {
       try {
         setIsLoading(true);
-        const res = await axios.get(API_URL_BLOGS, {
+        const res = await axios.get(API_URL_BLOGS_ALL, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

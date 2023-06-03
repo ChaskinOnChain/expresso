@@ -5,7 +5,7 @@ import computer from "../../assets/images/computer.png";
 
 function MoneyHome() {
   return (
-    <div className=" h-[40rem] w-full bg-emerald-600 text-white ">
+    <div className=" h-[40rem] w-full bg-emerald-600 text-white">
       <div className="relative w-full max-w-[90rem] xl:mx-auto h-full">
         <div className="absolute w-[32rem] top-[12rem] left-[6%] sm:left-[12%] md:left-[20%] lg:left-[30%] text-center">
           <h1 className="text-4xl mb-8">Earn Money</h1>

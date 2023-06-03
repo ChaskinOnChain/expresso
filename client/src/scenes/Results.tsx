@@ -7,8 +7,8 @@ import LoadingSpinner from "../components/LoadingSpinner";
 import SingleBlog from "../components/SingleBlog";
 import { AppState, Blog } from "../types/types";
 
-const API_URL_TAGS = "http://localhost:3000/blogs/filter/?tags=";
-const API_URL_SEARCH = "http://localhost:3000/blogs/search/?search=";
+const API_URL_TAGS = import.meta.env.VITE_APP_API_URL_TAGS;
+const API_URL_SEARCH = import.meta.env.VITE_APP_API_URL_SEARCH;
 
 function Results() {
   const { name } = useParams();
@@ -20,9 +20,14 @@ function Results() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [showMoreButton, setShowMoreButton] = useState(true);
 
+  const BLOG_LIMIT = 6;
+  console.log(name);
+
   useEffect(() => {
     async function findUser() {
       try {
+        console.log("hi");
+
         setIsLoading(true);
         const API =
           name === "tag" ? `${API_URL_TAGS}${tag}` : `${API_URL_SEARCH}${tag}`;
@@ -55,7 +60,7 @@ function Results() {
             <LoadingSpinner />
           ) : (
             blogs &&
-            blogs.slice(0, 6).map((blog, index: number) => {
+            blogs.slice(0, BLOG_LIMIT).map((blog, index: number) => {
               return (
                 <SingleBlog
                   id={blog._id}
@@ -71,7 +76,9 @@ function Results() {
               );
             })
           )}
-          {isLoading ? null : blogs && blogs.length > 6 && showMoreButton ? (
+          {isLoading ? null : blogs &&
+            blogs.length > BLOG_LIMIT &&
+            showMoreButton ? (
             <div className="w-full text-center mt-4">
               <button
                 onClick={() => setShowMoreButton(false)}
@@ -81,12 +88,12 @@ function Results() {
               </button>
             </div>
           ) : (
-            blogs?.slice(6).map((blog, index: number) => {
+            blogs?.slice(BLOG_LIMIT).map((blog, index: number) => {
               return (
                 <SingleBlog
                   id={blog._id}
                   key={index}
-                  index={index + 6}
+                  index={index + BLOG_LIMIT}
                   hoveredIndex={hoveredIndex}
                   setHoveredIndex={setHoveredIndex}
                   img={blog.img}

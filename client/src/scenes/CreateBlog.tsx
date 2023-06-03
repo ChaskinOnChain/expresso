@@ -7,7 +7,6 @@ import {
   Form as Furm,
   FormikHelpers,
 } from "formik";
-import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Dropzone from "react-dropzone";
@@ -15,14 +14,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane, faPencil } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { AppState, ValuesBlogType } from "../types/types";
+import { blogSchema } from "../schemas/schemas";
 
-const API_URL = "http://localhost:3000/blogs";
-
-const blogSchema = yup.object().shape({
-  title: yup.string().required("Title is required"),
-  content: yup.string().required("Content is required"),
-  tags: yup.string().required("required tags"),
-});
+const API_URL_BLOGS = import.meta.env.VITE_APP_API_URL_BLOGS;
 
 const initialValuesBlog = {
   title: "",
@@ -48,7 +42,7 @@ function CreateBlog() {
       }
     }
     try {
-      await axios.post(API_URL, formData, {
+      await axios.post(API_URL_BLOGS, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,

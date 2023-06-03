@@ -55,9 +55,9 @@ function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
               </Link>
               <p className="mb-2">{slicedContent}...</p>
               <div className="flex gap-2">
-                <Tag name={blog.tags[0]} />
-                <Tag name={blog.tags[1]} />
-                <Tag name={blog.tags[2]} />
+                {blog.tags.map((tag, index) => (
+                  <Tag key={index} name={tag} />
+                ))}
               </div>
             </div>
           </div>

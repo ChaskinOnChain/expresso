@@ -10,7 +10,8 @@ import { Formik, Field, Form, FormikHelpers } from "formik";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Delete from "../components/Delete";
 
-const API_URL_BLOGS = "http://localhost:3000/blogs/";
+const API_URL_BLOGS = import.meta.env.VITE_APP_API_URL_BLOGS;
+
 function BlogDetail() {
   const user = useSelector((state: AppState) => state.app.user);
 

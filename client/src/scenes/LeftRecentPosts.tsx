@@ -21,7 +21,7 @@ function LeftRecentPosts({
           <img
             className="z-[-1] cursor-pointer h-96 w-full"
             src={arrayBufferToBase64ImgSrc(img.data)}
-            alt="la"
+            alt={title}
           />
         </Link>
       </div>
@@ -44,9 +44,9 @@ function LeftRecentPosts({
 
       <p className="mb-2">{`${content.slice(0, 130)}...`}</p>
       <div className="flex gap-2">
-        <Tag name={tags[0]} />
-        <Tag name={tags[1]} />
-        <Tag name={tags[2]} />
+        {tags.map((tag, index) => (
+          <Tag key={index} name={tag} />
+        ))}
       </div>
     </div>
   );
