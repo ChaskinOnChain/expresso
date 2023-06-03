@@ -21,13 +21,11 @@ function Results() {
   const [showMoreButton, setShowMoreButton] = useState(true);
 
   const BLOG_LIMIT = 6;
-  console.log(name);
+  const [displayedBlogs, setDisplayedBlogs] = useState<number>(BLOG_LIMIT);
 
   useEffect(() => {
     async function findUser() {
       try {
-        console.log("hi");
-
         setIsLoading(true);
         const API =
           name === "tag" ? `${API_URL_TAGS}${tag}` : `${API_URL_SEARCH}${tag}`;
@@ -47,8 +45,14 @@ function Results() {
     findUser();
   }, [tag, name, token]);
 
+  const showMoreBlogs = () => {
+    if (blogs && blogs.length > displayedBlogs) {
+      setDisplayedBlogs(displayedBlogs + BLOG_LIMIT);
+    }
+  };
+
   return (
-    <div className="max-w-[90rem] w-full xl:mx-auto flex flex-col flex-grow">
+    <div className="max-w-[90rem] w-full xl:mx-auto flex flex-col flex-grow pb-4">
       <NavbarDiscover />
       <div className="w-full h-full px-8">
         <h1 className="text-3xl font-bold">
@@ -60,7 +64,7 @@ function Results() {
             <LoadingSpinner />
           ) : (
             blogs &&
-            blogs.slice(0, BLOG_LIMIT).map((blog, index: number) => {
+            blogs.slice(0, displayedBlogs).map((blog, index: number) => {
               return (
                 <SingleBlog
                   id={blog._id}
@@ -76,34 +80,16 @@ function Results() {
               );
             })
           )}
-          {isLoading ? null : blogs &&
-            blogs.length > BLOG_LIMIT &&
-            showMoreButton ? (
+          {isLoading ? null : blogs && blogs.length > displayedBlogs ? (
             <div className="w-full text-center mt-4">
               <button
-                onClick={() => setShowMoreButton(false)}
+                onClick={showMoreBlogs}
                 className="px-4 py-2 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"
               >
                 View More
               </button>
             </div>
-          ) : (
-            blogs?.slice(BLOG_LIMIT).map((blog, index: number) => {
-              return (
-                <SingleBlog
-                  id={blog._id}
-                  key={index}
-                  index={index + BLOG_LIMIT}
-                  hoveredIndex={hoveredIndex}
-                  setHoveredIndex={setHoveredIndex}
-                  img={blog.img}
-                  title={blog.title}
-                  date={blog.date}
-                  tags={blog.tags}
-                />
-              );
-            })
-          )}
+          ) : null}
         </div>
       </div>
     </div>

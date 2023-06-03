@@ -15,10 +15,10 @@ function ProfilePage() {
   const { id } = useParams();
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [showMoreButton, setShowMoreButton] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const BLOG_LIMIT = 6;
+  const [displayedBlogs, setDisplayedBlogs] = useState<number>(BLOG_LIMIT);
 
   useEffect(() => {
     async function findUser() {
@@ -38,12 +38,18 @@ function ProfilePage() {
       }
     }
     findUser();
-  }, [id]);
+  }, [id, token]);
 
   const currentUserBlogs = currentUser?.blogs || [];
 
+  const showMoreBlogs = () => {
+    if (currentUserBlogs.length > displayedBlogs) {
+      setDisplayedBlogs(displayedBlogs + BLOG_LIMIT);
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-grow max-w-[90rem] xl:mx-auto w-full h-full">
+    <div className="flex flex-col flex-grow max-w-[90rem] xl:mx-auto w-full h-full pb-4">
       <NavbarDiscover />
       {isLoading ? (
         <LoadingSpinner />
@@ -76,7 +82,7 @@ function ProfilePage() {
               <div className="flex flex-wrap gap-4 mt-6">
                 {currentUser &&
                   currentUser.blogs
-                    .slice(0, BLOG_LIMIT)
+                    .slice(0, displayedBlogs)
                     .map((blog: Blog, index: number) => {
                       return (
                         <SingleBlog
@@ -92,35 +98,18 @@ function ProfilePage() {
                         />
                       );
                     })}
-                {isLoading ? null : currentUserBlogs?.length > BLOG_LIMIT &&
-                  showMoreButton ? (
-                  <div className="w-full text-center mt-4">
-                    <button
-                      onClick={() => setShowMoreButton(false)}
-                      className="px-4 py-2 mb-4 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"
-                    >
-                      View More
-                    </button>
-                  </div>
-                ) : (
-                  currentUser?.blogs
-                    .slice(BLOG_LIMIT)
-                    .map((blog: Blog, index: number) => {
-                      return (
-                        <SingleBlog
-                          id={blog._id}
-                          key={index}
-                          index={index + BLOG_LIMIT}
-                          hoveredIndex={hoveredIndex}
-                          setHoveredIndex={setHoveredIndex}
-                          img={blog.img}
-                          title={blog.title}
-                          date={blog.date}
-                          tags={blog.tags}
-                        />
-                      );
-                    })
-                )}
+                {isLoading
+                  ? null
+                  : currentUserBlogs?.length > displayedBlogs && (
+                      <div className="w-full text-center mt-4">
+                        <button
+                          onClick={showMoreBlogs}
+                          className="px-4 py-2 mb-4 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"
+                        >
+                          View More
+                        </button>
+                      </div>
+                    )}
               </div>
             </div>
           </div>
