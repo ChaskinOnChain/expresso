@@ -8,6 +8,7 @@ import { AppState, Blog, User } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { arrayBufferToBase64ImgSrc } from "../utils/utils";
 import Support from "../components/Support";
+import NFT from "../components/NFT";
 
 const API_URL_USERS = import.meta.env.VITE_APP_API_URL_USERS;
 
@@ -56,7 +57,7 @@ function ProfilePage() {
         <LoadingSpinner />
       ) : (
         <div className="px-12">
-          <div className="flex md:flex-row items-center flex-col gap-12 mb-8 relative">
+          <div className="flex md:flex-row items-center justify-center flex-col gap-12 mb-8 relative">
             <div className="mb-4">
               {currentUser && (
                 <div className="flex flex-col gap-2 items-center rounded-lg bg-gray-100 p-10">
@@ -117,6 +118,7 @@ function ProfilePage() {
           </div>
         </div>
       )}
+      <NFT />
     </div>
   );
 }

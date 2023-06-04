@@ -10,7 +10,8 @@ import { Formik, Field, Form, FormikHelpers } from "formik";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Delete from "../components/Delete";
 import Support from "../components/Support";
-
+import NFT from "../components/NFT";
+NFT;
 const API_URL_BLOGS = import.meta.env.VITE_APP_API_URL_BLOGS;
 
 function BlogDetail() {
@@ -19,6 +20,8 @@ function BlogDetail() {
   const { id } = useParams<{ id: string }>();
   const [blogData, setBlogData] = useState<BlogReturn | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  console.log(user.role);
 
   async function getBlog() {
     try {
@@ -85,8 +88,9 @@ function BlogDetail() {
                 src={arrayBufferToBase64ImgSrc(blogData.img.data)}
                 alt=""
               />
-              {user.role === "admin" ||
-                (blogData.author._id === user._id && <Delete id={id} />)}
+              {(user.role === "admin" || blogData.author._id === user._id) && (
+                <Delete id={id} />
+              )}
             </div>
             <div className="py-4 flex items-center justify-between">
               <Link
@@ -169,10 +173,10 @@ function BlogDetail() {
                             {comment.user.username}
                           </h2>
                           <p>{comment.comment}</p>
-                          {user.role === "admin" ||
-                            (comment.user._id === user._id && (
-                              <Delete id={id} />
-                            ))}
+                          {(user.role === "admin" ||
+                            blogData.author._id === user._id) && (
+                            <Delete id={id} />
+                          )}
                         </div>
                       </div>
                     );
@@ -182,6 +186,7 @@ function BlogDetail() {
           </div>
         )
       )}
+      <NFT />
     </div>
   );
 }

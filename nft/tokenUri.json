@@ -1,0 +1,11 @@
+{
+  "name": "Supporter NFT - June 2023",
+  "description": "This NFT is proof that the owner supports the Expresso blog. It was minted in June 2023.",
+  "image": "ipfs://bafybeihq6xacjveaehfamauul3odg3e3fmu6xsucr27qfamvyz34cwyq6u",
+  "attributes": [
+    {
+      "trait_type": "Support Month",
+      "value": "June 2023"
+    }
+  ]
+}

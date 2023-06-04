@@ -79,7 +79,7 @@ function Update() {
     <div className="bg-slate-100 relative h-screen w-screen">
       <LoginBar />
       <div className="w-full flex justify-center">
-        <div className="bg-white mt-12 w-2/3 p-8 rounded relative">
+        <div className="bg-white mt-12 w-2/3 p-8 pt-12 rounded relative">
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}

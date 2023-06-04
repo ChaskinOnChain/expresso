@@ -114,6 +114,7 @@ const deleteUser = async (req: Request, res: Response) => {
       res.status(400);
       throw new Error("No user");
     }
+    await Blog.deleteMany({ author: req.user._id });
     await User.findByIdAndDelete(req.user._id);
     res.status(200).json({ message: "Account deleted" });
   } catch (error) {

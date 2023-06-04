@@ -8,6 +8,7 @@ import BlogDetail from "./scenes/BlogDetail";
 import Results from "./scenes/Results";
 import Footer from "./components/Footer";
 import Update from "./scenes/Update";
+import NFT from "./components/NFT";
 
 function App() {
   return (

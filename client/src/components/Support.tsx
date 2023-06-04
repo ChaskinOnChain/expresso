@@ -64,8 +64,8 @@ const Support = ({ eth_address, page }: Props) => {
         </h3>
         <ul
           className={`flex-col ${
-            !isDetail && "xl:flex-row"
-          } gap-4 flex items-center`}
+            !isDetail && "lg:flex-row"
+          } gap-6 flex items-center`}
         >
           {[0.01, 0.02, 0.05, 0.1].map((value) => (
             <li key={value}>
@@ -77,36 +77,34 @@ const Support = ({ eth_address, page }: Props) => {
               </button>
             </li>
           ))}
-          <li>
-            <label
-              htmlFor="custom"
-              className="block text-lg font-medium text-gray-700"
-            >
-              Or Enter Custom ETH Amount
-            </label>
-            <div className="mt-2 flex justify-center items-center relative">
-              <input
-                id="custom"
-                type="number"
-                step="0.05"
-                value={customAmount}
-                onChange={(e) => setCustomAmount(Number(e.target.value))}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    sendEth(customAmount);
-                  }
-                }}
-                className="border border-gray-300 rounded-lg px-3 py-2 mr-4 text-lg inline-block w-24 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              />
-              <button
-                className="donation-button bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition duration-300 transform hover:bg-blue-600 hover:scale-105"
-                onClick={() => sendEth(customAmount)}
-              >
-                ${(customAmount * currentEthPrice).toFixed(2)}
-              </button>
-            </div>
-          </li>
         </ul>
+        <label
+          htmlFor="custom"
+          className="block text-lg font-medium text-gray-700"
+        >
+          Or Enter Custom ETH Amount
+        </label>
+        <div className="mt-2 flex justify-center items-center relative">
+          <input
+            id="custom"
+            type="number"
+            step="0.05"
+            value={customAmount}
+            onChange={(e) => setCustomAmount(Number(e.target.value))}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendEth(customAmount);
+              }
+            }}
+            className="border border-gray-300 rounded-lg px-3 py-2 mr-4 text-lg inline-block w-24 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          />
+          <button
+            className="donation-button bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition duration-300 transform hover:bg-blue-600 hover:scale-105"
+            onClick={() => sendEth(customAmount)}
+          >
+            ${(customAmount * currentEthPrice).toFixed(2)}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import axios from "axios";
 import LoadingSpinner from "../components/LoadingSpinner";
 import SingleBlog from "../components/SingleBlog";
 import { AppState, Blog } from "../types/types";
+import NFT from "../components/NFT";
 
 const API_URL_TAGS = import.meta.env.VITE_APP_API_URL_TAGS;
 const API_URL_SEARCH = import.meta.env.VITE_APP_API_URL_SEARCH;
@@ -92,6 +93,7 @@ function Results() {
           ) : null}
         </div>
       </div>
+      <NFT />
     </div>
   );
 }
