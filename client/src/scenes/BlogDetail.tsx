@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NavbarDiscover from "../components/NavbarDiscover";
 import Tag from "../components/Tag";
@@ -9,6 +9,7 @@ import { arrayBufferToBase64ImgSrc, convertDate } from "../utils/utils";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Delete from "../components/Delete";
+import Support from "../components/Support";
 
 const API_URL_BLOGS = import.meta.env.VITE_APP_API_URL_BLOGS;
 
@@ -88,28 +89,30 @@ function BlogDetail() {
                 (blogData.author._id === user._id && <Delete id={id} />)}
             </div>
             <div className="py-4 flex items-center justify-between">
-              <div className="flex gap-4">
+              <Link
+                to={`/profile/${blogData.author._id}`}
+                className="flex gap-4"
+              >
                 <img
                   className="h-12 w-12 rounded-full cursor-pointer border-4 border-black"
                   src={arrayBufferToBase64ImgSrc(blogData.author.img.data)}
                   alt="Profile"
                 />
-
                 <div>
                   <h4 className="font-bold">{blogData.author.username}</h4>
                   <h4>{blogData.author.email}</h4>
                 </div>
-              </div>
+              </Link>
               <div>
                 <h4></h4>
                 <div className="">{convertDate(blogData.date)}</div>
               </div>
             </div>
             <div className="md:flex-row flex flex-col gap-5 mt-6">
-              <div className="h-32 bg-black md:w-[25%] text-white w-full">
-                Placeholder for Eth Stuff
-                {blogData.author.ethereum_address}
-              </div>
+              <Support
+                page="detail"
+                eth_address={blogData.author.ethereum_address}
+              />
               <pre
                 style={{ whiteSpace: "pre-wrap" }}
                 className="md:w-[70%] w-full break-keep overflow-auto font-sans"

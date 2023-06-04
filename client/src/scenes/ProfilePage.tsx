@@ -7,6 +7,7 @@ import SingleBlog from "../components/SingleBlog";
 import { AppState, Blog, User } from "../types/types";
 import LoadingSpinner from "../components/LoadingSpinner";
 import { arrayBufferToBase64ImgSrc } from "../utils/utils";
+import Support from "../components/Support";
 
 const API_URL_USERS = import.meta.env.VITE_APP_API_URL_USERS;
 
@@ -55,10 +56,10 @@ function ProfilePage() {
         <LoadingSpinner />
       ) : (
         <div className="px-12">
-          <div className="flex md:flex-row flex-col gap-4 mb-8">
+          <div className="flex md:flex-row items-center flex-col gap-12 mb-8 relative">
             <div className="mb-4">
               {currentUser && (
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col gap-2 items-center rounded-lg bg-gray-100 p-10">
                   <img
                     className="h-40 w-40 border-4 border-black rounded-full cursor-pointer hover:shadow-2xl"
                     src={arrayBufferToBase64ImgSrc(currentUser.img.data)}
@@ -71,9 +72,10 @@ function ProfilePage() {
                 </div>
               )}
             </div>
-            <div className="h-32 w-96 bg-black text-white">
-              PLACE HOLDER FOR ETHEREUM STUFF
-            </div>
+            <Support
+              page="profile"
+              eth_address={currentUser?.ethereum_address}
+            />
           </div>
 
           <div className="h-full w-full pt-1">
