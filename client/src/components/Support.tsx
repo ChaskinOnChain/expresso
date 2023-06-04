@@ -36,6 +36,10 @@ const Support = ({ eth_address, page }: Props) => {
   const sendEth = async (amount: number) => {
     if (eth_address) {
       try {
+        if (!window.ethereum) {
+          alert("Please Download Metamask");
+          return;
+        }
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
         const transaction = await signer.sendTransaction({
@@ -80,20 +84,25 @@ const Support = ({ eth_address, page }: Props) => {
             >
               Or Enter Custom ETH Amount
             </label>
-            <div className="mt-2 flex justify-center items-center">
+            <div className="mt-2 flex justify-center items-center relative">
               <input
                 id="custom"
                 type="number"
                 step="0.05"
                 value={customAmount}
                 onChange={(e) => setCustomAmount(Number(e.target.value))}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    sendEth(customAmount);
+                  }
+                }}
                 className="border border-gray-300 rounded-lg px-3 py-2 mr-4 text-lg inline-block w-24 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
               <button
                 className="donation-button bg-blue-500 text-white px-6 py-3 rounded-lg shadow-lg transition duration-300 transform hover:bg-blue-600 hover:scale-105"
                 onClick={() => sendEth(customAmount)}
               >
-                Donate | ${(customAmount * currentEthPrice).toFixed(2)}
+                ${(customAmount * currentEthPrice).toFixed(2)}
               </button>
             </div>
           </li>
