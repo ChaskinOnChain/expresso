@@ -1,6 +1,6 @@
 # Overview
 
-This project is a full-stack blogging platform that leverages the power of blockchain technology. The project combines a server-side API, a client-side React application, and a blockchain-based non-fungible token (NFT) contract.
+This project is a full-stack blogging platform that leverages the power of blockchain technology. The project combines a server-side API, a client-side React application, and blockchain-based non-fungible token (NFT) contract and a way to donate to creators in Ethereum.
 
 ## Server-side API
 
@@ -12,6 +12,4 @@ The client-side application is built with React.js. It provides a friendly user 
 
 ## Ethereum NFT Contract
 
-The Ethereum NFT contract, written in Solidity, is part of the project's unique selling point. The contract allows the deployment of a new NFT (Non-Fungible Token) which represents a unique asset on the Ethereum blockchain. This NFT could represent ownership or some other special relationship with a blog post.
-
-The combination of these three aspects - the server-side API, the client-side React application, and the Ethereum NFT contract - provide a unique and advanced blogging platform. Users can not only write and interact with blog posts but also potentially own unique tokens associated with these posts.
+The Ethereum NFT contract, written in Solidity, is part of the project's unique selling point. The contract allows the deployment of a new NFT (Non-Fungible Token) which represents a unique asset on the Ethereum blockchain. This NFT could represent our monthly digital collectable
