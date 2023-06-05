@@ -60,7 +60,7 @@ function Results() {
           {name === "tag" ? "Tag" : "Search"} Results for{" "}
           <span className="capitalize">{tag}:</span>
         </h1>
-        <div className="flex flex-wrap gap-4 h-[40%] mt-6">
+        <div className="flex flex-wrap gap-4 h-[40%] my-6">
           {isLoading ? (
             <LoadingSpinner />
           ) : (
@@ -82,7 +82,7 @@ function Results() {
             })
           )}
           {isLoading ? null : blogs && blogs.length > displayedBlogs ? (
-            <div className="w-full text-center mt-4">
+            <div className="w-full text-center my-4">
               <button
                 onClick={showMoreBlogs}
                 className="px-4 py-2 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"

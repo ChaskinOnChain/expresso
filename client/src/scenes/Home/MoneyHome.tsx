@@ -9,7 +9,7 @@ function MoneyHome() {
       <div className="relative w-full max-w-[90rem] xl:mx-auto h-full">
         <div className="absolute w-[32rem] top-[12rem] left-[6%] sm:left-[12%] md:left-[20%] lg:left-[30%] text-center">
           <h1 className="text-4xl mb-8">Earn Money</h1>
-          <p className="text-lg">
+          <p className="text-xl">
             Monetize Your Efforts With Ethereum. Simply add your Ethereum
             address to your account, and reap the benefits of your hard work. As
             your blog gains popularity, you'll earn ETH directly from your fans.

@@ -25,6 +25,7 @@ function NavbarDiscover() {
 
   const menuRef = useRef<HTMLDivElement | null>(null);
   const buttonRef = useRef<HTMLDivElement | null>(null);
+  const smallMenuRef = useRef<any>(null);
 
   useEffect(() => {
     function handleClickOutside(event: any) {
@@ -32,7 +33,9 @@ function NavbarDiscover() {
         menuRef.current &&
         !menuRef.current.contains(event.target) &&
         buttonRef.current &&
-        !buttonRef.current.contains(event.target)
+        !buttonRef.current.contains(event.target) &&
+        smallMenuRef.current &&
+        !smallMenuRef.current.contains(event.target)
       ) {
         setShowMenu(false);
       }
@@ -43,6 +46,10 @@ function NavbarDiscover() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleClick = () => {
+    setShowMenu((prev) => !prev);
+  };
 
   return (
     <div className="h-28 w-full flex justify-between items-center max-w-[90rem] xl:mx-auto">
@@ -81,33 +88,37 @@ function NavbarDiscover() {
             <>
               <div
                 ref={buttonRef}
-                onClick={() => setShowMenu((prev) => !prev)}
-                className="flex justify-center items-center border-black border-4 pl-4 rounded-[2rem] cursor-pointer hover:bg-black transition duration-500"
+                onClick={handleClick}
+                className="justify-center items-center border-black border-4 pl-4 rounded-[2rem] cursor-pointer hover:bg-black transition duration-500 md:flex hidden"
                 onMouseEnter={() => setIsBarsWhite(true)}
                 onMouseLeave={() => setIsBarsWhite(false)}
               >
                 <FontAwesomeIcon
                   className={`mr-2 text-2xl ${
                     isBarsWhite && "text-white"
-                  } transition duration-500`}
+                  } transition duration-500 md:inline-block hidden`}
                   icon={faBars}
                 />
                 {state && state.img && (
                   <img
-                    className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl "
+                    className="h-[52px] w-[52px] rounded-full cursor-pointer hover:shadow-2xl md:inline-block hidden"
                     src={arrayBufferToBase64ImgSrc(state.img.data)}
                     alt="Profile"
                   />
                 )}
               </div>
-
-              <AnimatePresence>
-                {showMenu && <Menu menuRef={menuRef} />}
-              </AnimatePresence>
             </>
           )}
         </div>
-        <FontAwesomeIcon className="mr-6 text-2xl md:hidden" icon={faBars} />
+        <AnimatePresence>
+          {showMenu && <Menu menuRef={menuRef} />}
+        </AnimatePresence>
+        <FontAwesomeIcon
+          ref={smallMenuRef}
+          onClick={handleClick}
+          className="mr-6 text-2xl cursor-pointer md:hidden"
+          icon={faBars}
+        />
       </div>
     </div>
   );

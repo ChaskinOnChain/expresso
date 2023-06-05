@@ -11,6 +11,7 @@ import verifyJWT from "../middleware/verifyJWT";
 import verifyAdmin from "../middleware/verifyAdmin";
 import { deletePostOrComment } from "../controllers/blogControllers";
 import uploadMiddleware from "../middleware/uploadMiddleware";
+import { Blog } from "../models/blogModel";
 
 const userRouter = express.Router();
 

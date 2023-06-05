@@ -2,6 +2,8 @@ import { Contract, ethers } from "ethers";
 import nftAbi from "../utils/nftAbi.json";
 import { useState } from "react";
 import LoadingSpinner from "./LoadingSpinner";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function NFT() {
   const [loading, setLoading] = useState(false);
@@ -10,7 +12,7 @@ function NFT() {
   async function mintNft() {
     try {
       if (!window.ethereum) {
-        alert("Please Download Metamask");
+        toast.error("Please Download Metamask");
         return;
       }
       setLoading(true);
@@ -19,8 +21,9 @@ function NFT() {
       const contract = new Contract(nftAddress, nftAbi, signer);
       const tx = await contract.safeMint(signer.getAddress());
       await tx.wait();
-      alert("You successfully minted the NFT");
+      toast.success("You successfully minted the NFT");
     } catch (error) {
+      toast.error("Minting failed");
       console.log(error);
     } finally {
       setLoading(false);
@@ -30,7 +33,7 @@ function NFT() {
   return (
     <div className="flex flex-col bg-gray-100 py-8 w-full mt-auto mx-8 my-8">
       <h4 className="mb-5 flex justify-center text-xl font-semibold text-gray-900">
-        Express your enthusiasm for Express!
+        Express your enthusiasm for Expresso!
       </h4>
       <div className="flex flex-col gap-4 lg:flex-row justify-center items-center">
         <div className="w-[25%] text-gray-600">

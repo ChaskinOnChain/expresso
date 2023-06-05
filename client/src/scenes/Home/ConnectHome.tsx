@@ -11,8 +11,8 @@ function ConnectHome() {
     >
       <div className="relative h-full overflow-y-hidden w-full max-w-[90rem] xl:mx-auto">
         <div className="absolute w-[32rem] top-[3rem] left-[6%] sm:left-[12%] md:left-[20%] lg:left-[30%]  text-center">
-          <h1 className="text-4xl mb-12">Connect With Other Bloggers</h1>
-          <h4 className="text-lg">
+          <h1 className="text-4xl mb-8">Connect With Other Bloggers</h1>
+          <h4 className="text-xl">
             Interact with fellow bloggers by commenting on their posts,
             enriching the discourse and building meaningful connections.
             Maintain control over your content with the option to edit or delete

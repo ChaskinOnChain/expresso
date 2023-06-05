@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import User from "../models/userModel";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
+import { Blog } from "../models/blogModel";
 
 const signUp = asyncHandler(async (req: Request, res: Response) => {
   const { username, email, password, role, ethereum_address, adminPassword } =

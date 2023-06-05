@@ -82,7 +82,7 @@ function ProfilePage() {
           <div className="h-full w-full pt-1">
             <div>
               <h1 className="font-bold text-xl">Latest Blogs</h1>
-              <div className="flex flex-wrap gap-4 mt-6">
+              <div className="flex flex-wrap gap-4 my-6">
                 {currentUser &&
                   currentUser.blogs
                     .slice(0, displayedBlogs)
@@ -104,7 +104,7 @@ function ProfilePage() {
                 {isLoading
                   ? null
                   : currentUserBlogs?.length > displayedBlogs && (
-                      <div className="w-full text-center mt-4">
+                      <div className="w-full text-center my-4">
                         <button
                           onClick={showMoreBlogs}
                           className="px-4 py-2 mb-4 font-bold border-[3px] text-sm border-black rounded-3xl hover:text-white hover:bg-black transition duration-500"

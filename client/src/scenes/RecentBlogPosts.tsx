@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import LeftRecentPosts from "./LeftRecentPosts";
 import RightRecentPosts from "./RightRecentPosts";
 import axios from "axios";
@@ -17,27 +17,29 @@ function RecentBlogPosts() {
   );
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    async function getBlogs() {
-      try {
-        setIsLoading(true);
-        const res = await axios.get(API_URL_BLOGS_ALL, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = res.data;
-        setFirstBlog(data.data[0]);
-        setBlogsTwoThruFour(data.data.slice(1, 4));
-      } catch (error) {
-        navigate("/login");
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
+
+  const getBlogs = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await axios.get(API_URL_BLOGS_ALL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const data = res.data;
+      setFirstBlog(data.data[0]);
+      setBlogsTwoThruFour(data.data.slice(1, 4));
+    } catch (error) {
+      navigate("/login");
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
+  }, [token, navigate]);
+
+  useEffect(() => {
     getBlogs();
-  }, []);
+  }, [getBlogs]);
 
   return (
     <div className="px-16 pb-16">

@@ -159,7 +159,7 @@ function Update() {
         </div>
       </div>
       {isModal && (
-        <div className="absolute top-0 left-0 bg-black/50 h-screen w-screen flex justify-center items-center">
+        <div className="absolute top-0 left-0 bg-black/50 h-full w-full flex justify-center items-center">
           <div className="h-[15%] min-h-[165px] w-[31%] bg-white shadow-2xl rounded md:p-8 p-2">
             <h1 className="md:text-xl text:sm  mb-4">
               Are you sure you want to delete your account?

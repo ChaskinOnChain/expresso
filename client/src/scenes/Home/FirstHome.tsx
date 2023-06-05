@@ -8,10 +8,10 @@ function FirstHome() {
     <div className="h-screen w-screen bg-red-800">
       <div className="w-full max-w-[90rem] xl:mx-auto relative h-screen flex justify-center overflow-hidden">
         <div className="text-white mt-48 pt-16 text-center rounded-lg px-16 h-[30%]">
-          <h1 className="text-4xl mb-4">
+          <h1 className="text-5xl mb-4">
             Express your interests in your unique style
           </h1>
-          <h3 className="mb-12">
+          <h3 className="mb-12 text-xl">
             Effortlessly craft a blog that's both unique and aesthetically
             pleasing
           </h3>
@@ -22,27 +22,27 @@ function FirstHome() {
           </Link>
         </div>
         <img
-          className="absolute bottom-0 left-[50%] -translate-x-1/2 hidden lg:inline-block"
+          className="absolute bottom-0 left-[50%] -translate-x-1/2 hidden lg:inline-block scale-125"
           src="/home1.png"
           alt="home logo"
         />
         <img
-          className="absolute left-0 bottom-52 h-52 w-52"
+          className="absolute left-8 bottom-72 h-52 w-52 scale-125"
           src="/spoon.png"
           alt="spoon"
         />
         <img
-          className="absolute left-0 bottom-0 h-52 w-52"
+          className="absolute left-7 bottom-6 h-52 w-52 scale-125"
           src="/eggs.png"
           alt="eggs"
         />
         <img
-          className="absolute right-0 bottom-0 h-52 w-52"
+          className="absolute right-6 bottom-6 h-52 w-52 scale-125"
           src="/pie.png"
           alt="pie"
         />
         <img
-          className="absolute right-0 bottom-64 h-52 w-52"
+          className="absolute right-6 bottom-64 h-52 w-52 scale-125"
           src="/roll.png"
           alt="roll"
         />

@@ -42,7 +42,7 @@ function LeftRecentPosts({
         />
       </Link>
 
-      <p className="mb-2">{`${content.slice(0, 130)}...`}</p>
+      <p className="mb-2">{`${content.slice(0, 160)}...`}</p>
       <div className="flex gap-2">
         {tags.map((tag, index) => (
           <Tag key={index} name={tag} />

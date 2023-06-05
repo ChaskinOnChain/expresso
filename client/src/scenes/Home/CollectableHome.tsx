@@ -12,11 +12,12 @@ function CollectableHome() {
             Unlease the Power of Digital Collectables
           </h1>
           <p className="text-lg">
-            Connect with Your Fans through Unique Digital Collectibles. As your
-            blog gains popularity, your audience won't just be reading your
-            work, they'll have the opportunity to collect digital items uniquely
-            associated with your content. These items serve as mementos of their
-            support and act as a bridge between you and your fans.
+            Showcase Your Support for the Expresso Blog through Exclusive
+            Digital Collectibles. As Expresso Blog continues to grow, you, as
+            our valued reader, have more than just reading to look forward to.
+            You can now collect distinct digital items tied uniquely to our
+            content. These collectibles serve as tokens of your support and
+            create a dynamic link between us and our supportive fans.
           </p>
         </div>
         <motion.div

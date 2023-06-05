@@ -12,7 +12,7 @@ function WorldHome() {
           <h1 className="text-4xl mb-12">
             Amplify your voice and reach millions of people worldwide
           </h1>
-          <p className="text-lg mb-20">
+          <p className="text-xl mb-20">
             Whether pouring out your expertise, brewing the latest news, or
             whatever's percolating in your mind, you're in good company on
             Expresso. Sign up to taste the richness of thoughts and discover why
@@ -26,19 +26,19 @@ function WorldHome() {
         </div>
         <motion.div
           className="absolute hidden xl:block"
-          initial={{ x: "-100%", y: "170%" }}
-          whileInView={{ x: "100%", y: "170%" }}
+          initial={{ x: "560%", y: "170%" }}
+          whileInView={{ x: "325%", y: "170%" }}
           viewport={{ once: true }}
           transition={{ delay: 0.75 }}
         >
           <img src={fam} alt="fam" />
         </motion.div>
         <motion.div
-          className="absolute hidden lg:inline-block scale-75"
-          initial={{ x: "800%", y: "190%" }}
-          whileInView={{ x: "450%", y: "190%" }}
+          className="absolute hidden lg:block"
+          initial={{ x: "-100%", y: "190%" }}
+          whileInView={{ x: "150%", y: "190%" }}
           viewport={{ once: true }}
-          transition={{ delay: 1 }}
+          transition={{ delay: 0.75 }}
         >
           <img src={docs} alt="docs" />
         </motion.div>

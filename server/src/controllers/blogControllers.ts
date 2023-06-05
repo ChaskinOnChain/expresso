@@ -67,6 +67,7 @@ const viewAllBlogs = async (req: Request, res: Response) => {
 
     const blogs = await Blog.find()
       .sort({ date: -1 })
+      .limit(4)
       .populate({ path: "author", select: "username" });
 
     res.status(200).json({ message: "all blogs", data: blogs });

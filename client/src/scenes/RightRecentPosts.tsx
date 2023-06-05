@@ -20,7 +20,7 @@ function RightRecentPosts({ blogsArray }: { blogsArray: BlogReturn[] }) {
       {blogsArray.map((blog, index) => {
         const slicedContent =
           viewportWidth > 768
-            ? blog.content.slice(0, 40)
+            ? blog.content.slice(0, 37)
             : blog.content.slice(0, 130);
         return (
           <div key={index} className="flex md:flex-row flex-col gap-4 mb-6">
